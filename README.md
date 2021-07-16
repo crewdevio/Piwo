@@ -1,5 +1,8 @@
 <h1 align="center">Piwo</h1>
 
+<p align="center">
+<img src="https://cdn.discordapp.com/attachments/845424135018250283/865702946892546098/unknown.png" width="800">
+</p>
 ## About
 
 Piwo is a friendly command-line tool to do HTTP request to a API server. It support JSON.
