@@ -2,7 +2,7 @@ import { Commands } from "./types.ts";
 import { parse } from "flags/mod.ts";
 import handleArgs from "./handlers/handleArgs.ts";
 import checkArgs from "./handlers/checkArgs.ts";
-import { getCommand, postCommand, putCommand, deleteCommand } from "./commands.ts";
+import { getCommand, postCommand, putCommand, deleteCommand, versionCommand } from "./commands.ts";
 
 const commands: Commands = {
 	GET: getCommand,
@@ -20,7 +20,7 @@ if (checkArgs(args)) {
 		console.log("I will help you later");
 	}
 	else if (flags.version) {
-		console.log("Not version yet, this is on development");
+		console.log(versionCommand);
 	}
 	else {
 		commands[method](url, body);
