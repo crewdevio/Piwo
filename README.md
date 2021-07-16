@@ -10,12 +10,11 @@ Piwo is a friendly command-line tool to do HTTP request to a API server. It supp
 
 ## Installation
 
-The permissions that Piwo uses are:
-
 ```console
 deno install --allow-net --import-map=https://denopkg.com/crewdevio/piwo@main/import_map.json -n piwo --no-check https://denopkg.com/crewdevio/piwo@main/cli.ts
-
 ```
+
+The permissions that Piwo uses are:
 
 - --allow-net
 
