@@ -20,7 +20,11 @@ deno install --allow-net --import-map=https://denopkg.com/crewdevio/piwo@main/im
 
 ```console
 deno install -f -r --allow-net --import-map=https://denopkg.com/crewdevio/piwo@main/import_map.json -n piwo --no-check https://denopkg.com/crewdevio/piwo@main/cli.ts
+```
 
+Check if Piwo has been updated
+```console
+piwo --version
 ```
 
 ## Using without install
