@@ -57,7 +57,7 @@ piwo GET https://api.github.com/
 
 A shortest way:
 
-```
+```console
 piwo api.github.com
 ```
 
