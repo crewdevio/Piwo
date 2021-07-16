@@ -16,7 +16,7 @@ function outputResponse(data: Output) {
 		console.log(`${blue(key)}: ${coloredData.headers[key]}`);
 	}
 
-	console.log("\n\n");
+	console.log("\n");
 	console.log(coloredData.body);
 }
 

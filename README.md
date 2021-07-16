@@ -23,6 +23,7 @@ deno install -f -r --allow-net --import-map=https://denopkg.com/crewdevio/piwo@m
 ```
 
 Check if Piwo has been updated
+
 ```console
 piwo --version
 ```
