@@ -1,10 +1,28 @@
 import { Method, CustomHeaders, Output } from "../types.ts";
 
 async function customFetch(URL: string, method: Method, body?: BodyInit): Promise<Output> {
-	let response;
+	const originalURL = URL
+	const hasProtocol = URL.includes("http");
+	const testedProtocols = {
+		HTTPS: false,
+		HTTP: false
+	}
+	let response: Response = null!;
 
-	try {
-		if (URL.includes("https") || URL.includes("http")) {
+
+	while (!response) {
+		const tryWithHTTPS = !hasProtocol && !testedProtocols.HTTPS;
+		const tryWithHTTP = !hasProtocol && !testedProtocols.HTTP && testedProtocols.HTTPS;
+		if (tryWithHTTPS) {
+			URL = "https://" + originalURL;
+			testedProtocols.HTTPS = true;
+		}
+		if (tryWithHTTP) {
+			URL = "http://" + originalURL;
+			testedProtocols.HTTP = true;
+		}
+
+		try {
 			if (method === "GET") {
 				response = await fetch(URL);
 			} else {
@@ -16,40 +34,16 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 					body
 				});
 			}
-		} else {
-			try {
-				if (method === "GET") {
-					response = await fetch(`https://${URL}`);
-				} else {
-					response = await fetch(`https://${URL}`, {
-						method,
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body
-					});
-				}
-			} catch {
-				if (method === "GET") {
-					response = await fetch(`https://${URL}`);
-				} else {
-					response = await fetch(`https://${URL}`, {
-						method,
-						headers: {
-							'Content-Type': 'application/json'
-						},
-						body
-					});
-				}
+		} catch {
+			if (!testedProtocols.HTTPS || !testedProtocols.HTTP) continue;
+
+			return {
+				ok: false,
+				protocol: null!,
+				status: 500,
+				headers: null!,
+				body: { msg: "Could not connect" }
 			}
-		}
-	} catch {
-		return {
-			ok: false,
-			protocol: null!,
-			status: 500,
-			headers: null!,
-			body: { msg: "Could connect" }
 		}
 	}
 
