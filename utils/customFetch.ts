@@ -7,12 +7,17 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 		HTTPS: false,
 		HTTP: false
 	}
+	const isLocalhost = URL.includes("localhost");
+
+	let testedLocalhostWithHTTP = false;
 	let response: Response = null!;
 
 
 	while (!response) {
-		const tryWithHTTPS = !hasProtocol && !testedProtocols.HTTPS;
-		const tryWithHTTP = !hasProtocol && !testedProtocols.HTTP && testedProtocols.HTTPS;
+		const tryWithHTTP = !hasProtocol && !testedProtocols.HTTP && (testedProtocols.HTTPS || (isLocalhost && !testedLocalhostWithHTTP));
+		let tryWithHTTPS = !hasProtocol && !testedProtocols.HTTPS;
+		tryWithHTTPS = !isLocalhost && tryWithHTTPS || (tryWithHTTPS && isLocalhost && testedLocalhostWithHTTP);
+
 		if (tryWithHTTPS) {
 			URL = "https://" + originalURL;
 			testedProtocols.HTTPS = true;
@@ -20,6 +25,7 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 		if (tryWithHTTP) {
 			URL = "http://" + originalURL;
 			testedProtocols.HTTP = true;
+			testedLocalhostWithHTTP = true;
 		}
 
 		try {
@@ -35,7 +41,7 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 				});
 			}
 		} catch {
-			if (!testedProtocols.HTTPS || !testedProtocols.HTTP) continue;
+			if ((!testedProtocols.HTTPS || !testedProtocols.HTTP) && !hasProtocol) continue;
 
 			return {
 				ok: false,
@@ -46,6 +52,7 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 			}
 		}
 	}
+
 
 	const data = await response.json();
 
