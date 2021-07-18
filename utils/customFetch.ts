@@ -1,4 +1,13 @@
-import { Method, CustomHeaders, Output } from "../types.ts";
+/**
+ * Copyright (c) Crew Dev.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import type { Method, CustomHeaders, Output } from "../types.ts";
+import { HandleResponseData } from "./validate.ts";
 
 async function customFetch(URL: string, method: Method, body?: BodyInit): Promise<Output> {
 	const originalURL = URL
@@ -54,7 +63,7 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 	}
 
 
-	const data = await response.json();
+	const data = await HandleResponseData<Record<string, unknown>>(response);
 
 	const headers: CustomHeaders = {
 		"access-control-allow-origin": response.headers.get("access-control-allow-origin")!,
