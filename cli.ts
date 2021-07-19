@@ -1,4 +1,12 @@
-import { Commands } from "./types.ts";
+/**
+ * Copyright (c) Crew Dev.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import type { Commands } from "./types.ts";
 import { parse } from "flags/mod.ts";
 import handleArgs from "./handlers/handleArgs.ts";
 import checkArgs from "./handlers/checkArgs.ts";
