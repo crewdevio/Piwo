@@ -6,7 +6,7 @@
  *
  */
 
-export type Method = "GET" | "POST" | "PUT" | "DELETE";
+export type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export type Protocol = "HTTP" | "HTTPS";
 export type Commands = Record<Method, (url: string, body?: BodyInit) => Promise<void>>;
 

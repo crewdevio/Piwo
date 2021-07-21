@@ -17,6 +17,7 @@ import {
   putCommand,
 	helpCommand,
   versionCommand,
+  patchCommnand
 } from "./commands.ts";
 
 const commands: Commands = {
@@ -24,6 +25,7 @@ const commands: Commands = {
   POST: postCommand,
   PUT: putCommand,
   DELETE: deleteCommand,
+  PATCH: patchCommnand
 };
 
 const args = parse(Deno.args);

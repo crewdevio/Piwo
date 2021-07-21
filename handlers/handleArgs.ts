@@ -15,7 +15,7 @@ function handleArgs(args: Args) {
 	let method: Method;
 	let url = args._[1] as string;
 
-	if (firstArg === "GET" || firstArg === "POST" || firstArg === "PUT" || firstArg === "DELETE") {
+	if (firstArg === "GET" || firstArg === "POST" || firstArg === "PUT" || firstArg === "DELETE" || firstArg === "PATCH") {
 		method = firstArg;
 	} else {
 		method = "GET";

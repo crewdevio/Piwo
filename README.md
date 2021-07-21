@@ -46,7 +46,7 @@ trex exec piwo [...args] or trex exec piwo@[version] [...args]
 piwo [method] [url] [body]
 ```
 
-`Method`: must be uppercase and they can be `GET`, `POST`, `PUT` and `DELETE`. If you don't send a method Piwo will make a `GET`(default) request.
+`Method`: must be uppercase and they can be `GET`, `POST`, `PUT`, `PATCH` and `DELETE`. If you don't send a method Piwo will make a `GET` (default) request.
 
 `Url`: you can omit the protocol (http or https), Piwo will first make a request to https, if the response fails then will make a request with the http protocol.
 
@@ -64,7 +64,7 @@ A shortest way:
 piwo api.github.com
 ```
 
-### Make a POST or PUT request sending a body/JSON
+### Make a POST, PATCH or PUT request sending a body/JSON
 
 ```console
 piwo POST localhost:3000/send_your_foo foo=bar
@@ -73,7 +73,7 @@ piwo POST localhost:3000/send_your_foo foo=bar
 If you need to send a value with spaces, use quotes.
 
 ```console
-piwo PUT localhost:3000/update_your_foo foo="this is my bar"
+piwo PATCH localhost:3000/update_your_foo foo="this is my bar"
 ```
 
 You can also send multiple values, just separing with spaces

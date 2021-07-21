@@ -27,6 +27,10 @@ export async function deleteCommand(url: string, body?: BodyInit) {
   outputResponse(await customFetch(url, "DELETE", body));
 }
 
+export async function patchCommnand(url: string, body?: BodyInit) {
+  outputResponse(await customFetch(url, "PATCH", body));
+}
+
 export const versionCommand = `${purple(info.name)}: ${yellow(info.version)}`;
 
 export const helpCommand = `${purple(info.name)}: I need help for help you`;
