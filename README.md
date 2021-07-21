@@ -52,6 +52,8 @@ piwo [method] [url] [body]
 
 `body`: The body that you will send is a JSON.
 
+If you only write `piwo`, then you will see the result of `--help` command
+
 ### Make a GET request
 
 ```console

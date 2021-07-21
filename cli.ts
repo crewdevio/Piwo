@@ -9,7 +9,7 @@
 import type { Commands } from "./types.ts";
 import { parse } from "flags/mod.ts";
 import handleArgs from "./handlers/handleArgs.ts";
-import checkArgs from "./handlers/checkArgs.ts";
+import hasArgs from "./handlers/hasArgs.ts";
 import {
   deleteCommand,
   getCommand,
@@ -30,7 +30,7 @@ const commands: Commands = {
 
 const args = parse(Deno.args);
 
-if (checkArgs(args)) {
+if (hasArgs(args)) {
   const { method, url, body, flags } = handleArgs(args);
 
   if (flags.help) {
@@ -40,4 +40,6 @@ if (checkArgs(args)) {
   } else {
     commands[method](url, body);
   }
+} else {
+  console.log(helpCommand);
 }
