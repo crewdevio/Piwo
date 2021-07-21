@@ -10,7 +10,6 @@ import type { Method, CustomHeaders, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
 async function customFetch(URL: string, method: Method, body?: BodyInit): Promise<Output> {
-	console.log(method, body);
 	const originalURL = URL
 	const hasProtocol = URL.includes("http");
 	const testedProtocols = {
