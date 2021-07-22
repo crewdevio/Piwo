@@ -9,18 +9,18 @@
 /**
  * validate if is a json response
  */
-export async function HandleResponseData<T extends any>(
+export async function HandleResponseData<T extends unknown>(
   data: Response
 ): Promise<T> {
   try {
     const text = (await data.text()).trim();
 
-    if (text.startsWith("{") && text.endsWith("}")) {
+    if (text.startsWith("{") && text.endsWith("}") || text.startsWith("[") && text.endsWith("]")) {
       return JSON.parse(text) as T;
     }
 
     return text as T;
-  } catch (error: any) {
+  } catch (error: unknown) {
     throw error;
   }
 }
