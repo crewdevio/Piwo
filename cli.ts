@@ -9,16 +9,16 @@
 import type { Commands } from "./types.ts";
 import { parse } from "flags/mod.ts";
 import handleArgs from "./handlers/handleArgs.ts";
-import hasArgs from "./handlers/hasArgs.ts";
+import hasArgs from "./utils/hasArgs.ts";
 import {
   deleteCommand,
   getCommand,
   postCommand,
   putCommand,
-	helpCommand,
-  versionCommand,
   patchCommnand
-} from "./commands.ts";
+} from "./commands/httpRequest.ts";
+import helpCommand from "./commands/help.ts"
+import versionCommand from "./commands/version.ts"
 
 const commands: Commands = {
   GET: getCommand,

@@ -8,13 +8,16 @@
 
 import { Args } from "flags/mod.ts";
 
-function hasArgs(args: Args) {
+/**
+ * check if args are passed;
+ */
+function hasArgs(args: Args): boolean {
 	const helpFlag = args.help || args.h;
 	const versionFlag = args.version || args.v;
 	const hasFlags = helpFlag || versionFlag;
 	const hasArgs = args._.length > 0;
 
-	return hasArgs || hasFlags
+	return hasArgs || hasFlags;
 }
 
 export default hasArgs;
