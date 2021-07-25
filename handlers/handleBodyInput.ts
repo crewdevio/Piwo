@@ -6,11 +6,13 @@
  *
  */
 
+import { handlePrimitiveValue } from "./handleTypes.ts"
+
 function handleBodyInput(array: string[]) {
 	let stringified = "{";
 
 	array.forEach((property, index) => {
-		stringified += property.split("=").map(word =>`"${word}"`).join(": ");
+		stringified += handlePrimitiveValue(property);
 		stringified += index !== array.length - 1 ? ", " : "";
 	});
 
