@@ -31,4 +31,4 @@ ${purple("BODY:")}
   piwo can only send a json body
 
 ${purple("EXAMPLE:")}
-  piwo api.github.com`;
+  ${info.name.toLowerCase()} api.github.com`;
