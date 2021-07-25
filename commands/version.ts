@@ -6,7 +6,7 @@
  *
  */
 
-export default {
-	name: "Piwo",
-	version: "v0.2.0",
-}
+import { purple, yellow } from "../utils/colors.ts";
+import info from "../info.ts";
+
+export default `${purple(info.name)}: ${yellow(info.version)}`;
