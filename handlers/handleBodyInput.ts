@@ -6,19 +6,29 @@
  *
  */
 
-import { handlePrimitiveValue } from "./handleTypes.ts"
+import { handlePrimitive, handleArray } from "./handleTypes.ts"
 
 function handleBodyInput(array: string[]) {
-	let stringified = "{";
+	const arr = handleArray(array);
+	let stringified = "";
 
-	array.forEach((property, index) => {
-		stringified += handlePrimitiveValue(property);
-		stringified += index !== array.length - 1 ? ", " : "";
+	array.forEach(property => {
+		const result = handlePrimitive(property);
+		stringified += result;
+		stringified += result ? "," : "";
 	});
 
-	stringified += "}"
+	stringified = stringified.slice(0, -1);
 
-	return stringified as BodyInit;
+	if (arr && stringified) {
+		return `{ ${arr}, ${stringified} }`
+	}
+	if (arr) {
+		return `{ ${arr} }`;
+	}
+
+	return `{ ${stringified} }`;
 }
+
 
 export default handleBodyInput;
