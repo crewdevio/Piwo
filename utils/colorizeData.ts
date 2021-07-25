@@ -43,7 +43,6 @@ function colorizeHeader(headers: CustomHeaders) {
 }
 
 function colorizeJson(body: Record<string, unknown>) {
-	console.log("colorizeJSon")
 	const jsonRegex = /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
   const json = JSON.stringify(body, null, 2);
 
