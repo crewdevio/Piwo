@@ -15,7 +15,7 @@ export async function HandleResponseData<T extends unknown>(
   try {
     const text = (await data.text()).trim();
 
-    if (text.startsWith("{") && text.endsWith("}") || text.startsWith("[") && text.endsWith("]")) {
+    if (isJson(text)) {
       return JSON.parse(text) as T;
     }
 
@@ -23,4 +23,8 @@ export async function HandleResponseData<T extends unknown>(
   } catch (error: unknown) {
     throw error;
   }
+}
+
+export function isJson(text: string) {
+  return text.startsWith("{") && text.endsWith("}") || text.startsWith("[") && text.endsWith("]");
 }

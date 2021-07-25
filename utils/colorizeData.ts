@@ -18,6 +18,7 @@ import {
 	numberAndBoolColor,
 } from "./colors.ts";
 import { bold } from "fmt/colors.ts";
+import { isJson } from "./validate.ts"
 
 function colorizeData({ protocol, status, ok, headers, body }: Output) {
   return {
@@ -29,7 +30,7 @@ function colorizeData({ protocol, status, ok, headers, body }: Output) {
       : yellow(status),
     ok: ok ? blue("OK") : red("ERROR"),
     headers: colorizeHeader(headers),
-    body: colorizeJson(body),
+    body: isJson(JSON.stringify(body)) ? colorizeJson(body) : body,
   };
 }
 
@@ -42,6 +43,7 @@ function colorizeHeader(headers: CustomHeaders) {
 }
 
 function colorizeJson(body: Record<string, unknown>) {
+	console.log("colorizeJSon")
 	const jsonRegex = /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
   const json = JSON.stringify(body, null, 2);
 
