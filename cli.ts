@@ -28,7 +28,7 @@ const commands: Commands = {
   PATCH: patchCommnand
 };
 
-const args = parse(Deno.args);
+const args = parse(Deno.args, { stopEarly: true });
 
 if (hasArgs(args)) {
   const { method, url, body, flags } = handleArgs(args);

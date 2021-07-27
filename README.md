@@ -1,12 +1,12 @@
 <h1 align="center">Piwo</h1>
 
 <p align="center">
-<img src="https://cdn.discordapp.com/attachments/845424135018250283/865702946892546098/unknown.png" width="800">
+<img src="https://cdn.discordapp.com/attachments/845424135018250283/869636557328482344/unknown.png" width="800">
 </p>
 
 ## About
 
-Piwo is a friendly command-line tool to do HTTP request to a API server. It support JSON.
+Piwo is a friendly command-line tool to do HTTP request to a API server. Sending request body as JSON.
 
 ## Installation
 
@@ -88,4 +88,33 @@ piwo POST localhost:3000/signup username=foo password=bar
 
 ```console
 piwo DELETE localhost:3000/your_foo/remove
+```
+### Sending a property with array value type
+
+```console
+piwo POST localhost:3000/cli/piwo tags=[typescript deno cli http]
+```
+
+### Sendin a property with object value type
+
+```console
+piwo POST localhost:3000/cli/registry cli={name=piwo description="your friendly HTTP cli tool"}
+```
+
+## Some nice tips
+
+### How URL argument works
+When you're doing a request you can omit the protocol, Piwo will make a request with https, if get not response then will try with http protocol and then will response with response of the server of a msg that couldn't connect when no server is found.
+
+When you send the URL with protocol Piwo will not check the other protocol.
+
+If you're sure that the server is on http protocol, we recommend you to pass the protocol in the url, is faster because piwo will do a direct request with the procotol and will not check the https procotol.
+
+If the url is a localhost, then will try directly with HTTP.
+
+### Sending a body
+
+You can separate the values with commas, but a space is always required to differentiate to the others values.
+```
+piwo POST localhost:3000/ foo=bar, bar=foo
 ```
