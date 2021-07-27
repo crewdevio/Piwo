@@ -6,29 +6,31 @@
  *
  */
 
-import { handlePrimitive, handleArray } from "./handleTypes.ts"
+function handleBodyInput(body: string[]) {
+	const regex = /[a-zA-Z0-9]+=?|("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
 
-function handleBodyInput(array: string[]) {
-	const arr = handleArray(array);
-	let stringified = "";
+	const stringified = body.map(property => {
+		property = property.replace(/,/g, "");
+		const [key, value] = property.split("=");
+		if (value?.includes(" ")) {
+			return `${key}="${value}"`
+		}
+		return property.includes(" ") ? `"${property}"` : property;
+	}).join(" ");
 
-	array.forEach(property => {
-		const result = handlePrimitive(property);
-		stringified += result;
-		stringified += result ? "," : "";
-	});
+	const result = stringified.replace(regex, match => {
+		if (/=/.test(match)) {
+			return `"${match.slice(0, -1)}": `;
+		}
+		if (/"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/.test(match)) {
+			return `${match},`;
+		}
 
-	stringified = stringified.slice(0, -1);
+		return `"${match}",`;
+	})
 
-	if (arr && stringified) {
-		return `{ ${arr}, ${stringified} }`
-	}
-	if (arr) {
-		return `{ ${arr} }`;
-	}
-
-	return `{ ${stringified} }`;
+	const lastCommaIndex = result.lastIndexOf(",");
+	return `{ ${result.slice(0, lastCommaIndex) + result.slice(lastCommaIndex + 1)} }`;
 }
-
 
 export default handleBodyInput;
