@@ -47,7 +47,6 @@ function colorizeJson(body: Record<string, unknown>) {
   const json = JSON.stringify(body, null, 2);
 
   return json.replace(jsonRegex, match => {
-    console.log(match)
 		if (/^"/.test(match)) {
 			if (/:$/.test(match)) {
 				return bold(keyColor(match.slice(0, -1))) + ":";

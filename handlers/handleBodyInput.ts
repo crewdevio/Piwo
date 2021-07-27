@@ -9,7 +9,7 @@
 function handleBodyInput(body: string[]) {
 	const regex = /[a-zA-Z0-9]+=?|("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
 
-	const stringified = body.map(property => {
+	const stringified = body.map((property) => {
 		property = property.replace(/,/g, "");
 		const [key, value] = property.split("=");
 		if (value?.includes(" ")) {
@@ -18,7 +18,7 @@ function handleBodyInput(body: string[]) {
 		return property.includes(" ") ? `"${property}"` : property;
 	}).join(" ");
 
-	const result = stringified.replace(regex, match => {
+	const result = stringified.replace(regex, (match) => {
 		if (/=/.test(match)) {
 			return `"${match.slice(0, -1)}": `;
 		}
