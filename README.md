@@ -89,11 +89,6 @@ piwo POST localhost:3000/signup username=foo password=bar
 ```console
 piwo DELETE localhost:3000/your_foo/remove
 ```
-### Sending a property with array value type
-
-```console
-piwo POST localhost:3000/cli/piwo tags=[typescript deno cli http]
-```
 
 ### Sendin a property with object value type
 
@@ -101,10 +96,16 @@ piwo POST localhost:3000/cli/piwo tags=[typescript deno cli http]
 piwo POST localhost:3000/cli/registry cli={name=piwo description="your friendly HTTP cli tool"}
 ```
 
+### Sending a property with array value type
+
+```console
+piwo PATCH localhost:3000/cli/piwo tags=[typescript deno cli http]
+```
+
 ## Some nice tips
 
 ### How URL argument works
-When you're doing a request you can omit the protocol, Piwo will make a request with https, if get not response then will try with http protocol and then will response with response of the server of a msg that couldn't connect when no server is found.
+When you're doing a request you can omit the protocol, Piwo will make a request with https, if get not response then will try with http protocol and then will output the response of the server or a msg that couldn't connect when no server is found.
 
 When you send the URL with protocol Piwo will not check the other protocol.
 
@@ -114,7 +115,7 @@ If the url is a localhost, then will try directly with HTTP.
 
 ### Sending a body
 
-You can separate the values with commas, but a space is always required to differentiate to the others values.
+You can separate the values with commas, but a space is always required to differentiate to the others values. Piwo will replace the commas to nothing before parsing the values to JSON.
 ```
 piwo POST localhost:3000/ foo=bar, bar=foo
 ```
