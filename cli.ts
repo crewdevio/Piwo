@@ -33,6 +33,12 @@ const args = parse(Deno.args, { stopEarly: true });
 if (hasArgs(args)) {
   const { method, url, body, flags } = handleArgs(args);
 
+  try {
+    console.log(JSON.parse(body as string));
+  } catch {
+    console.log(body);
+  }
+
   if (flags.help) {
     console.log(helpCommand);
   } else if (flags.version) {
