@@ -14,9 +14,8 @@ function handleBodyInput(body: string[]) {
 	const stringified = stringifyInput(body);
 
 	const result = stringified.replace(regex, (match) => {
-		if (/=/.test(match)) {
-			return `: `;
-		}
+		if (/=/.test(match)) return `: `;
+
 		if (/"(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/.test(match)) {
 			return match;
 		}
