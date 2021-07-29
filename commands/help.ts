@@ -16,6 +16,7 @@ export default
 ${purple("OPTIONS:")}
   ${yellow("--help, -h")}      show help info
   ${yellow("--version, -v")}   show version
+  ${yellow("--form, -f")}      send a body as form
 
 ${purple("METHOD:")}
   ${yellow("GET")}             default method when no method is passed
@@ -25,10 +26,10 @@ ${purple("METHOD:")}
   ${yellow("DELETE")}
 
 ${purple("URL:")}
-  You can no specify the protocol.
+  you can no specify the protocol.
 
 ${purple("BODY:")}
-  piwo can only send a json body
+  send a body as JSON (default)
 
 ${purple("EXAMPLE:")}
   ${info.name.toLowerCase()} api.github.com`;
