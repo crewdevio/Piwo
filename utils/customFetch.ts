@@ -48,7 +48,7 @@ async function customFetch(config: FetchConfig): Promise<Output> {
 				response = await fetch(URL, {
 					method,
 					headers: {
-						'Content-Type': form ? "application/x-www-form-urlencoded" : 'application/json'
+						'Content-Type': form ? "application/form-data" : 'application/json'
 					},
 					body
 				});
