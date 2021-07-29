@@ -102,6 +102,14 @@ piwo POST localhost:3000/cli/registry cli={name=piwo description="your friendly 
 piwo PATCH localhost:3000/cli/piwo tags=[typescript deno cli http]
 ```
 
+### Send a form/body
+
+You just need to add the --form flag
+
+```console
+piwo --form POST localhost:3000/ search_query="foo bar"
+```
+
 ## Some nice tips
 
 ### How URL argument works
