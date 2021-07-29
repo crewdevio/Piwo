@@ -6,29 +6,14 @@
  *
  */
 
-import type { Commands } from "./types.ts";
 import { parse } from "flags/mod.ts";
 import handleArgs from "./handlers/handleArgs.ts";
 import hasArgs from "./utils/hasArgs.ts";
-import {
-  deleteCommand,
-  getCommand,
-  postCommand,
-  putCommand,
-  patchCommnand
-} from "./commands/httpRequest.ts";
+import { output } from "./commands/httpRequest.ts";
 import helpCommand from "./commands/help.ts"
 import versionCommand from "./commands/version.ts"
 
-const commands: Commands = {
-  GET: getCommand,
-  POST: postCommand,
-  PUT: putCommand,
-  DELETE: deleteCommand,
-  PATCH: patchCommnand
-};
-
-const args = parse(Deno.args, { stopEarly: true });
+const args = parse(Deno.args, { stopEarly: true, boolean: true });
 
 if (hasArgs(args)) {
   const { method, url, body, flags } = handleArgs(args);
@@ -44,7 +29,7 @@ if (hasArgs(args)) {
   } else if (flags.version) {
     console.log(versionCommand);
   } else {
-    commands[method](url, body);
+    output({ method, url, body, flags })
   }
 } else {
   console.log(helpCommand);

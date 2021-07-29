@@ -6,25 +6,25 @@
  *
  */
 
+import type { FetchConfig } from "../types.ts";
 import outputResponse from "../utils/output.ts";
 import customFetch from "../utils/customFetch.ts";
 
-export async function getCommand(url: string) {
-  outputResponse(await customFetch(url, "GET"));
-}
+export async function output(config: FetchConfig) {
+  const { method, url, flags, body } = config;
+  const { form } = flags!;
+  config = {
+    method,
+    url,
+  }
 
-export async function postCommand(url: string, body?: BodyInit) {
-  outputResponse(await customFetch(url, "POST", body));
-}
+  if (body && method !== "GET") {
+    config.body = body;
+  }
 
-export async function putCommand(url: string, body?: BodyInit) {
-  outputResponse(await customFetch(url, "PUT", body));
-}
+  if (form && method !== "GET") {
+    config.flags = { form }
+  }
 
-export async function deleteCommand(url: string, body?: BodyInit) {
-  outputResponse(await customFetch(url, "DELETE", body));
-}
-
-export async function patchCommnand(url: string, body?: BodyInit) {
-  outputResponse(await customFetch(url, "PATCH", body));
+  outputResponse(await customFetch(config));
 }

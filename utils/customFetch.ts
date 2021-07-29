@@ -6,10 +6,14 @@
  *
  */
 
-import type { Method, CustomHeaders, Output } from "../types.ts";
+import type { FetchConfig, CustomHeaders, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
-async function customFetch(URL: string, method: Method, body?: BodyInit): Promise<Output> {
+
+async function customFetch(config: FetchConfig): Promise<Output> {
+	const { method, body } = config;
+	const form = config.flags?.form
+	let URL: string = config.url as string;
 	const originalURL = URL
 	const hasProtocol = URL.includes("http");
 	const testedProtocols = {
@@ -44,7 +48,7 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 				response = await fetch(URL, {
 					method,
 					headers: {
-						'Content-Type': 'application/json'
+						'Content-Type': form ? "application/x-www-form-urlencoded" : 'application/json'
 					},
 					body
 				});
@@ -62,7 +66,6 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 		}
 	}
 
-
 	const data = await HandleResponseData<Record<string, unknown>>(response);
 
 	const headers: CustomHeaders = {
@@ -77,7 +80,7 @@ async function customFetch(URL: string, method: Method, body?: BodyInit): Promis
 		protocol: response.url.includes("https") ? "HTTPS" : "HTTP",
 		status: response.status,
 		headers,
-		body: data
+		body: !form ? data : ""
 	}
 }
 

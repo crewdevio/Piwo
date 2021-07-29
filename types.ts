@@ -22,5 +22,14 @@ export interface Output {
 	protocol: Protocol;
 	status: number;
 	headers: CustomHeaders;
-	body: Record<string, unknown>;
+	body?: Record<string, unknown> | string;
+}
+
+export interface FetchConfig {
+	method: string;
+	url: string;
+	body?: BodyInit | FormData;
+	flags?: {
+		form?: boolean
+	}
 }

@@ -10,9 +10,11 @@ import type { Output } from "../types.ts";
 import colorizeData from "./colorizeData.ts"
 
 function outputResponse(data: Output) {
-	const { protocol, status, ok, headers, body  } = colorizeData(data);
+	const { protocol, status, ok, headers, body } = colorizeData(data);
 
-	console.log(`${protocol} ${status}/${ok}\n${headers}\n${body}`);
+	const outputBody = body ? `\n${body}` : "";
+
+	console.log(`${protocol} ${status}/${ok}\n${headers + outputBody}`);
 }
 
 export default outputResponse;

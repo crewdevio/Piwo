@@ -112,10 +112,3 @@ When you send the URL with protocol Piwo will not check the other protocol.
 If you're sure that the server is on http protocol, we recommend you to pass the protocol in the url, is faster because piwo will do a direct request with the procotol and will not check the https procotol.
 
 If the url is a localhost, then will try directly with HTTP.
-
-### Sending a body
-
-You can separate the values with commas, but a space is always required to differentiate to the others values. Piwo will replace the commas to nothing before parsing the values to JSON.
-```
-piwo POST localhost:3000/ foo=bar, bar=foo
-```

@@ -7,16 +7,24 @@
  */
 
 import type { Method } from "../types.ts";
-import handleBodyInput from "./handleBodyInput.ts";
+import { inputToJSON, inputToForm } from "./handleBodyInput.ts";
 import { Args } from "flags/mod.ts";
 
 function handleArgs(args: Args) {
 	const firstArg = args._[0];
 	let method: Method;
 	let url = args._[1] as string;
+	let body = undefined;
 
-	if (firstArg === "GET" || firstArg === "POST" || firstArg === "PUT" || firstArg === "DELETE" || firstArg === "PATCH") {
-		method = firstArg;
+	if (firstArg === "GET" || firstArg === "POST" || firstArg === "PUT" || firstArg === "DELETE" || firstArg === "PATCH" || args.form || args.f) {
+		if (args.form || args.f) {
+			body = inputToForm(args._.slice(1) as string[])
+			method = args.form || args.f;
+			url = args._[0] as string;
+		} else {
+			body = inputToJSON(args._.slice(2) as string[]);
+			method = firstArg as Method;
+		}
 	} else {
 		method = "GET";
 		url = firstArg as string;
@@ -25,10 +33,11 @@ function handleArgs(args: Args) {
 	return {
 		method,
 		url,
-		body: handleBodyInput(args._.slice(2) as string[]) as BodyInit,
+		body,
 		flags: {
 			help: args.help || args.h,
-			version: args.version || args.v
+			version: args.version || args.v,
+			form: args.form || args.f
 		}
 	}
 }
