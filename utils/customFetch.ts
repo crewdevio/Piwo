@@ -9,7 +9,6 @@
 import type { FetchConfig, CustomHeaders, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
-
 async function customFetch(config: FetchConfig): Promise<Output> {
 	const { method, body } = config;
 	const form = config.flags?.form
@@ -47,8 +46,8 @@ async function customFetch(config: FetchConfig): Promise<Output> {
 			} else {
 				response = await fetch(URL, {
 					method,
-					headers: {
-						'Content-Type': form ? "application/form-data" : 'application/json'
+					headers: form ? undefined : {
+						'Content-Type': 'application/json'
 					},
 					body
 				});

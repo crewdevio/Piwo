@@ -10,7 +10,7 @@ export function inputToJSON(body: string[]) {
 	if (!body.length) return;
 	body = [""].concat(body)
 
-	const regex = /(?=[a-zA-Z0-9-_]+=)?=|(?=\s[a-zA-Z0-9-_]+)\s|[a-zA-Z0-9-_]+|("(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
+	const regex = /(?=[a-zA-Z0-9-_]+=)?=|(?=\s[a-zA-Z0-9-_]+)\s|[a-zA-Z0-9-_.@]+|("(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
 	const stringified = stringifyInput(body);
 	const result = stringified.replace(regex, (match) => {
 		if (/=/.test(match)) return `: `;
