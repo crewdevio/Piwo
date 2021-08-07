@@ -11,7 +11,7 @@ Piwo is a friendly command-line tool to do HTTP request to a API server. Sending
 ## Installation
 
 ```console
-deno install --allow-net --import-map=https://denopkg.com/crewdevio/piwo@main/import_map.json -n piwo --no-check https://denopkg.com/crewdevio/piwo@main/cli.ts
+deno install --allow-net --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
 ```
 
 The permissions that Piwo uses are:
@@ -22,7 +22,7 @@ The permissions that Piwo uses are:
 ## Updating Piwo
 
 ```console
-deno install -f -r --allow-net --import-map=https://denopkg.com/crewdevio/piwo@main/import_map.json -n piwo --no-check https://denopkg.com/crewdevio/piwo@main/cli.ts
+deno install -f -r --allow-net --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
 ```
 
 Check if Piwo has been updated
@@ -43,16 +43,14 @@ trex exec piwo [...args] or trex exec piwo@[version] [...args]
 ### Syntax
 
 ```console
-piwo [method] [url] [body]
+piwo [METHOD] [URL] [BODY]
 ```
 
-`Method`: must be uppercase and they can be `GET`, `POST`, `PUT`, `PATCH` and `DELETE`. If you don't send a method Piwo will make a `GET` (default) request.
+`METHOD`: must be uppercase and they can be `GET`, `POST`, `PUT`, `PATCH` and `DELETE`. If you don't send a method Piwo will make a `GET` (default) request.
 
-`Url`: you can omit the protocol (http or https), Piwo will first make a request to https, if the response fails then will make a request with the http protocol.
+`URL`: you can omit the protocol (http or https), Piwo will first make a request to https, if the response fails then will make a request with the http protocol.
 
-`body`: The body that you will send is a JSON.
-
-If you only write `piwo`, then you will see the result of `--help` command
+`BODY`: The body that you will send is a JSON.
 
 ### Make a GET request
 
