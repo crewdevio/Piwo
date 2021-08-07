@@ -6,27 +6,34 @@
  *
  */
 
-import { parse } from "flags/mod.ts";
 import handleArgs from "./handlers/handleArgs.ts";
-import hasArgs from "./utils/hasArgs.ts";
+import Flags from "./utils/args/flags.ts";
 import { output } from "./commands/httpRequest.ts";
 import helpCommand from "./commands/help.ts"
 import versionCommand from "./commands/version.ts"
-// import parse from "./utils/args/parser.ts";
+import parse from "./utils/args/parser.ts";
 
-const args = parse(Deno.args, { stopEarly: true, boolean: true });
-// console.log(parse(Deno.args));
+const denoArgs = Deno.args;
+const args = parse(denoArgs);
 
-if (hasArgs(args)) {
-  const { method, url, body, flags } = handleArgs(args);
+const flagValidation = Flags.validate(args);
+
+if (denoArgs?.length && !flagValidation?.error) {
+  // const { method, url, body } = handleArgs(args as Args);
+  const flags = Flags.parse(args?.flags);
 
   if (flags.help) {
     console.log(helpCommand);
   } else if (flags.version) {
     console.log(versionCommand);
   } else {
-    output({ method, url, body, flags })
+    // output({ method, url, body, flags })
   }
-} else {
+}
+if (!denoArgs?.length) {
   console.log(helpCommand);
+}
+
+if (flagValidation) {
+  console.error("\n" + flagValidation?.msg);
 }

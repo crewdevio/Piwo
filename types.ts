@@ -34,7 +34,7 @@ export interface FetchConfig {
 	}
 }
 
-export interface ParsedArgs {
+export interface Args {
   method?: Method;
   url?: string;
   flags?: Record<string, true>;
