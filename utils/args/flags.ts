@@ -10,6 +10,25 @@ import type { Args } from "../../types.ts";
 import { purple, red, yellow } from "../colors.ts";
 
 class Flags {
+  static parse(flags: Record<string, true>) {
+    const result: Record<string, true> = {};
+    const help = flags.help || flags.h;
+    const version = flags.version || flags.v;
+    const form = flags.form || flags.f;
+
+    if (help) {
+      result.help = help;
+    }
+    if (version) {
+      result.version = version;
+    }
+    if (form) {
+      result.form = form;
+    }
+
+    return result;
+  }
+
   static validate(args: Args | undefined) {
     if (!args) return;
 
@@ -45,25 +64,6 @@ class Flags {
         error: true,
       };
     }
-  }
-
-  static parse(flags: Record<string, true>) {
-    const result: Record<string, true> = {};
-    const help = flags.help || flags.h;
-    const version = flags.version || flags.v;
-    const form = flags.form || flags.f;
-
-    if (help) {
-      result.help = help;
-    }
-    if (version) {
-      result.version = version;
-    }
-    if (form) {
-      result.form = form;
-    }
-
-    return result;
   }
 }
 
