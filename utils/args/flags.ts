@@ -7,52 +7,66 @@
  */
 
 import type { Args } from "../../types.ts";
-import { yellow, red, purple } from "../colors.ts";
+import { purple, red, yellow } from "../colors.ts";
 
 class Flags {
-	static validate(args: Args | undefined) {
-		if (!args) return;
+  static validate(args: Args | undefined) {
+    if (!args) return;
 
-		const { flags } = args;
+    const { flags } = args;
 
-		if (flags?.version && (args.method || args.url || args.body)) {
-			return { msg: `\n${yellow("warning")}: ${purple("--version")} flag don't need arguments`, error: false };
-		}
+    if (!flags) return;
 
-		if (flags?.form && (!args.method || !args.url || !args.body)) {
-			let miss = "";
-			if (args.method !== "POST") {
-				miss += "POST method"
-			}
-			if (!args.url) {
-				miss += miss ? ", url" : "url";
-			}
-			if (!args.body) {
-				miss += miss ? ", body" : "body";
-			}
+    if (flags.version && (args.method || args.url || args.body)) {
+      return {
+        msg: `\n${yellow("warning")}: the flag ${
+          purple("--version")
+        } doesn't need arguments`,
+        error: false,
+      };
+    }
 
-			return { msg: `${red("error")}: ${purple("--form")} flag expected arguments: ${miss}`, error: true };
-		}
-	}
+    if (flags.form && (!args.method || !args.url || !args.body)) {
+      let miss = "";
+      if (args.method !== "POST") {
+        miss += `${yellow("[POST]")}`;
+      }
+      if (!args.url) {
+        miss += addComma(miss) + `${yellow("[URL]")}`;
+      }
+      if (!args.body) {
+        miss += addComma(miss) + `${yellow("[BODY]")}`;
+      }
 
-	static parse(flags: Record<string, true>) {
-		const result: Record<string, true> = {};
-		const help = flags.help || flags.h;
-		const version = flags.version || flags.v;
-		const form = flags.form || flags.f;
+      return {
+        msg: `${red("error")}: the flag ${
+          purple("--form")
+        } needs the following arguments: ${miss}`,
+        error: true,
+      };
+    }
+  }
 
-		if (help) {
-			result.help = help;
-		}
-		if (version) {
-			result.version = version
-		}
-		if (form) {
-			result.form = form;
-		}
+  static parse(flags: Record<string, true>) {
+    const result: Record<string, true> = {};
+    const help = flags.help || flags.h;
+    const version = flags.version || flags.v;
+    const form = flags.form || flags.f;
 
-		return result;
-	}
+    if (help) {
+      result.help = help;
+    }
+    if (version) {
+      result.version = version;
+    }
+    if (form) {
+      result.form = form;
+    }
+
+    return result;
+  }
 }
+
+const addComma = <T extends boolean | string>(add: T) => add ? ", " : "";
 
 export default Flags;
