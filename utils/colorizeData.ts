@@ -30,7 +30,7 @@ function colorizeData({ protocol, status, ok, headers, body }: Output) {
       : yellow(status),
     ok: ok ? blue("OK") : red("ERROR"),
     headers: colorizeHeader(headers),
-    body: isJson(JSON.stringify(body)) ? colorizeJson(body) : body,
+    body: isJson(JSON.stringify(body)) ? colorizeJson(body!) : body,
   };
 }
 
@@ -42,7 +42,7 @@ function colorizeHeader(headers: CustomHeaders) {
   return colorized;
 }
 
-function colorizeJson(body: Record<string, unknown>) {
+function colorizeJson(body: string | Record<string, unknown>) {
 	const jsonRegex = /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
   const json = JSON.stringify(body, null, 2);
 

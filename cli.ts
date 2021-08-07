@@ -12,8 +12,10 @@ import hasArgs from "./utils/hasArgs.ts";
 import { output } from "./commands/httpRequest.ts";
 import helpCommand from "./commands/help.ts"
 import versionCommand from "./commands/version.ts"
+// import parse from "./utils/args/parser.ts";
 
 const args = parse(Deno.args, { stopEarly: true, boolean: true });
+// console.log(parse(Deno.args));
 
 if (hasArgs(args)) {
   const { method, url, body, flags } = handleArgs(args);

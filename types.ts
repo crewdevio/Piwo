@@ -33,3 +33,10 @@ export interface FetchConfig {
 		form?: boolean
 	}
 }
+
+export interface ParsedArgs {
+  method?: Method;
+  url?: string;
+  flags?: Record<string, true>;
+	body?: string[];
+}
