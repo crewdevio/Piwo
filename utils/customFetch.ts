@@ -6,10 +6,10 @@
  *
  */
 
-import type { FetchConfig, CustomHeaders, Output } from "../types.ts";
+import type { Args, CustomHeaders, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
-async function customFetch(config: FetchConfig): Promise<Output> {
+async function customFetch(config: Args): Promise<Output> {
 	const { method, body } = config;
 	const form = config.flags?.form
 	let URL: string = config.url as string;

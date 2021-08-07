@@ -6,8 +6,26 @@
  *
  */
 
-export function inputToJSON(body: string[]) {
-	if (!body.length) return;
+class Body {
+	static parseToJSON(body: string[]) {
+		return JSON.parse(inputToObject(body));
+	}
+
+	static parseToFormData(body: string[]) {
+		if (!body.length) return;
+
+		const formData = new FormData();
+		const objectData = JSON.parse(inputToObject(body) as string);
+
+		for (const key in objectData) {
+			formData.append(key, objectData[key]);
+		}
+
+		return formData;
+	}
+}
+
+function inputToObject(body: string[]) {
 	body = [""].concat(body)
 
 	const regex = /(?=[a-zA-Z0-9-_]+=)?=|(?=\s[a-zA-Z0-9-_]+)\s|[a-zA-Z0-9-_.@]+|("(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
@@ -27,19 +45,6 @@ export function inputToJSON(body: string[]) {
 	return `{ ${result} }`;
 }
 
-export function inputToForm(body: string[]) {
-	if (!body.length) return;
-
-	const formData = new FormData();
-	const objectData = JSON.parse(inputToJSON(body) as string);
-
-	for (const key in objectData) {
-		formData.append(key, objectData[key]);
-	}
-
-	return formData;
-}
-
 function stringifyInput(body: string[]) {
 	return body.reduce((acc, property) => {
 		const [key, value] = property.split("=");
@@ -52,3 +57,5 @@ function stringifyInput(body: string[]) {
 		return acc + whitespace + (property.includes(" ") ? `"${property}"` : property);
 	});
 }
+
+export default Body;

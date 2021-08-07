@@ -6,7 +6,7 @@
  *
  */
 
-import handleArgs from "./handlers/handleArgs.ts";
+import type { Args } from "./types.ts";
 import Flags from "./utils/args/flags.ts";
 import { output } from "./commands/httpRequest.ts";
 import helpCommand from "./commands/help.ts"
@@ -19,15 +19,20 @@ const args = parse(denoArgs);
 const flagValidation = Flags.validate(args);
 
 if (denoArgs?.length && !flagValidation?.error) {
-  // const { method, url, body } = handleArgs(args as Args);
-  const flags = Flags.parse(args?.flags);
+  const { method, url, body, flags } = args as Args;
 
-  if (flags.help) {
+  if (flags?.help) {
     console.log(helpCommand);
-  } else if (flags.version) {
+  } else if (flags?.version) {
     console.log(versionCommand);
   } else {
-    // output({ method, url, body, flags })
+    const config = {
+      method,
+      url,
+      body,
+      flags
+    }
+    output(config)
   }
 }
 if (!denoArgs?.length) {
@@ -35,5 +40,5 @@ if (!denoArgs?.length) {
 }
 
 if (flagValidation) {
-  console.error("\n" + flagValidation?.msg);
+  console.error(flagValidation?.msg);
 }

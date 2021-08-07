@@ -6,13 +6,13 @@
  *
  */
 
-import type { FetchConfig } from "../types.ts";
+import type { Args } from "../types.ts";
 import outputResponse from "../utils/output.ts";
 import customFetch from "../utils/customFetch.ts";
 
-export async function output(config: FetchConfig) {
+export async function output(config: Args) {
   const { method, url, flags, body } = config;
-  const { form } = flags!;
+  const form = flags?.form;
   config = {
     method,
     url,

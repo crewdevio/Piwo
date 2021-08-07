@@ -25,18 +25,9 @@ export interface Output {
 	body?: Record<string, unknown> | string;
 }
 
-export interface FetchConfig {
-	method: string;
-	url: string;
-	body?: BodyInit | FormData;
-	flags?: {
-		form?: boolean
-	}
-}
-
 export interface Args {
   method?: Method;
   url?: string;
   flags?: Record<string, true>;
-	body?: string[];
+	body?: string | FormData;
 }

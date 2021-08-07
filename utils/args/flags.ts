@@ -13,13 +13,13 @@ class Flags {
 	static validate(args: Args | undefined) {
 		if (!args) return;
 
-		const flags = this.parse(args.flags);
+		const { flags } = args;
 
-		if (flags.version && (args.method || args.url || args.body?.length)) {
-			return { msg: `${yellow("warning")}: ${purple("--version")} flag don't need arguments`, error: false };
+		if (flags?.version && (args.method || args.url || args.body)) {
+			return { msg: `\n${yellow("warning")}: ${purple("--version")} flag don't need arguments`, error: false };
 		}
 
-		if (flags.form && (!args.method || !args.url || !args.body?.length)) {
+		if (flags?.form && (!args.method || !args.url || !args.body)) {
 			let miss = "";
 			if (args.method !== "POST") {
 				miss += "POST method"
@@ -27,19 +27,31 @@ class Flags {
 			if (!args.url) {
 				miss += miss ? ", url" : "url";
 			}
-			if (!args.body?.length) {
+			if (!args.body) {
 				miss += miss ? ", body" : "body";
 			}
+
 			return { msg: `${red("error")}: ${purple("--form")} flag expected arguments: ${miss}`, error: true };
 		}
 	}
 
-	static parse(flags: Record<string, true> | undefined) {
-		return {
-			help: flags?.help || flags?.h,
-			version: flags?.version || flags?.v,
-			form: flags?.form || flags?.f,
+	static parse(flags: Record<string, true>) {
+		const result: Record<string, true> = {};
+		const help = flags.help || flags.h;
+		const version = flags.version || flags.v;
+		const form = flags.form || flags.f;
+
+		if (help) {
+			result.help = help;
 		}
+		if (version) {
+			result.version = version
+		}
+		if (form) {
+			result.form = form;
+		}
+
+		return result;
 	}
 }
 
