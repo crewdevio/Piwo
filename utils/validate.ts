@@ -10,7 +10,7 @@
  * validate if is a json response
  */
 export async function HandleResponseData<T extends unknown>(
-  data: Response
+  data: Response,
 ): Promise<T> {
   try {
     const text = (await data.text()).trim();
@@ -26,5 +26,6 @@ export async function HandleResponseData<T extends unknown>(
 }
 
 export function isJson(text: string) {
-  return text.startsWith("{") && text.endsWith("}") || text.startsWith("[") && text.endsWith("]");
+  return text.startsWith("{") && text.endsWith("}") ||
+    text.startsWith("[") && text.endsWith("]");
 }

@@ -9,8 +9,8 @@
 import type { Args } from "./types.ts";
 import Flags from "./utils/args/flags.ts";
 import { output } from "./commands/httpRequest.ts";
-import helpCommand from "./commands/help.ts"
-import versionCommand from "./commands/version.ts"
+import helpCommand from "./commands/help.ts";
+import versionCommand from "./commands/version.ts";
 import parse from "./utils/args/parser.ts";
 
 const denoArgs = Deno.args;
@@ -30,9 +30,9 @@ if (denoArgs?.length && !flagValidation?.error) {
       method,
       url,
       body,
-      flags
-    }
-    output(config)
+      flags,
+    };
+    output(config);
   }
 }
 if (!denoArgs?.length) {

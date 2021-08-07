@@ -7,55 +7,60 @@
  */
 
 class Body {
-	static parseToJSON(body: string[]) {
-		return JSON.parse(inputToObject(body));
-	}
+  static parseToJSON(body: string[]) {
+    return JSON.parse(inputToObject(body));
+  }
 
-	static parseToFormData(body: string[]) {
-		if (!body.length) return;
+  static parseToFormData(body: string[]) {
+    if (!body.length) return;
 
-		const formData = new FormData();
-		const objectData = JSON.parse(inputToObject(body) as string);
+    const formData = new FormData();
+    const objectData = JSON.parse(inputToObject(body) as string);
 
-		for (const key in objectData) {
-			formData.append(key, objectData[key]);
-		}
+    for (const key in objectData) {
+      formData.append(key, objectData[key]);
+    }
 
-		return formData;
-	}
+    return formData;
+  }
 }
 
 function inputToObject(body: string[]) {
-	body = [""].concat(body)
+  body = [""].concat(body);
 
-	const regex = /(?=[a-zA-Z0-9-_]+=)?=|(?=\s[a-zA-Z0-9-_]+)\s|[a-zA-Z0-9-_.@]+|("(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
-	const stringified = stringifyInput(body);
-	const result = stringified.replace(regex, (match) => {
-		if (/=/.test(match)) return `: `;
+  const regex =
+    /(?=[a-zA-Z0-9-_]+=)?=|(?=\s[a-zA-Z0-9-_]+)\s|[a-zA-Z0-9-_.@]+|("(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
+  const stringified = stringifyInput(body);
+  const result = stringified.replace(regex, (match) => {
+    if (/=/.test(match)) return `: `;
 
-		if (/"(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/.test(match)) {
-			return match;
-		}
+    if (
+      /"(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/
+        .test(match)
+    ) {
+      return match;
+    }
 
-		if (/\s/.test(match)) return ", ";
+    if (/\s/.test(match)) return ", ";
 
-		return `"${match}"`;
-	})
+    return `"${match}"`;
+  });
 
-	return `{ ${result} }`;
+  return `{ ${result} }`;
 }
 
 function stringifyInput(body: string[]) {
-	return body.reduce((acc, property) => {
-		const [key, value] = property.split("=");
-		const whitespace = acc ? " " : "";
+  return body.reduce((acc, property) => {
+    const [key, value] = property.split("=");
+    const whitespace = acc ? " " : "";
 
-		if (value?.includes(" ")) {
-			return acc + whitespace + `${key}="${value}"`
-		}
+    if (value?.includes(" ")) {
+      return acc + whitespace + `${key}="${value}"`;
+    }
 
-		return acc + whitespace + (property.includes(" ") ? `"${property}"` : property);
-	});
+    return acc + whitespace +
+      (property.includes(" ") ? `"${property}"` : property);
+  });
 }
 
 export default Body;

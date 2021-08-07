@@ -16,14 +16,14 @@ export async function output(config: Args) {
   config = {
     method,
     url,
-  }
+  };
 
   if (body && method !== "GET") {
     config.body = body;
   }
 
   if (form && method !== "GET") {
-    config.flags = { form }
+    config.flags = { form };
   }
 
   outputResponse(await customFetch(config));
