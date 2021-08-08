@@ -18,27 +18,16 @@ const args = parse(denoArgs);
 
 const flagValidation = Flags.validate(args);
 
-if (denoArgs?.length && !flagValidation?.error) {
-  const { method, url, body, flags } = args as Args;
+if (args && !flagValidation?.error) {
+  const { flags } = args as Args;
 
   if (flags?.help) {
     console.log(helpCommand);
   } else if (flags?.version) {
     console.log(versionCommand);
   } else {
-    const config = {
-      method,
-      url,
-      body,
-      flags,
-    };
-    output(config);
+    await output(args);
   }
 }
-if (!denoArgs?.length) {
-  console.log(helpCommand);
-}
 
-if (flagValidation) {
-  console.error(flagValidation?.msg);
-}
+if (!args) console.log(helpCommand);

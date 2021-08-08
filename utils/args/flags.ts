@@ -7,7 +7,8 @@
  */
 
 import type { Args } from "../../types.ts";
-import { purple, red, yellow } from "../color/colors.ts";
+import { yellow } from "../color/colors.ts";
+import { errorFlag as error, warnFlag as warn } from "../output/fail.ts";
 
 class Flags {
   static parse(flags: Record<string, true>) {
@@ -38,9 +39,7 @@ class Flags {
 
     if (flags.version && (args.method || args.url || args.body)) {
       return {
-        msg: `\n${yellow("warning")}: the flag ${
-          purple("--version")
-        } doesn't need arguments`,
+        msg: warn("--version"),
         error: false,
       };
     }
@@ -58,9 +57,7 @@ class Flags {
       }
 
       return {
-        msg: `${red("error")}: the flag ${
-          purple("--form")
-        } needs the following arguments: ${miss}`,
+        msg: error("--form", miss),
         error: true,
       };
     }

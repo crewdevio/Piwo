@@ -9,11 +9,9 @@
 import type { Args, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
-async function customFetch(config: Args): Promise<Output> {
-  const { method, body } = config;
-  const form = config.flags?.form;
-  let URL: string = config.url as string;
-  const originalURL = URL;
+async function customFetch(config: Required<Args>): Promise<Output> {
+  const { method, body, flags, url: URL } = config;
+  const form = flags.form;
   const hasProtocol = URL.includes("http");
   const testedProtocols = {
     HTTPS: false,
@@ -23,6 +21,7 @@ async function customFetch(config: Args): Promise<Output> {
 
   let testedLocalhostWithHTTP = false;
   let response: Response = null!;
+  let URLCopy = URL;
 
   while (!response) {
     const tryWithHTTP = !hasProtocol && !testedProtocols.HTTP &&
@@ -32,20 +31,20 @@ async function customFetch(config: Args): Promise<Output> {
       (tryWithHTTPS && isLocalhost && testedLocalhostWithHTTP);
 
     if (tryWithHTTPS) {
-      URL = "https://" + originalURL;
+      URLCopy = "https://" + URL;
       testedProtocols.HTTPS = true;
     }
     if (tryWithHTTP) {
-      URL = "http://" + originalURL;
+      URLCopy = "http://" + URL;
       testedProtocols.HTTP = true;
       testedLocalhostWithHTTP = true;
     }
 
     try {
       if (method === "GET") {
-        response = await fetch(URL);
+        response = await fetch(URLCopy);
       } else {
-        response = await fetch(URL, {
+        response = await fetch(URLCopy, {
           method,
           headers: form ? undefined : {
             "Content-Type": "application/json",
@@ -60,7 +59,7 @@ async function customFetch(config: Args): Promise<Output> {
 
       return {
         ok: false,
-        protocol: null!,
+        protocol: "HTTP",
         status: 500,
         headers: null!,
         body: { msg: "Could not connect" },
