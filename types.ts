@@ -21,5 +21,5 @@ export interface Args {
   method?: Method;
   url?: string;
   flags?: Record<string, true>;
-  body?: string | FormData;
+  body?: string | FormData | Record<string, unknown>;
 }

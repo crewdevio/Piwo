@@ -8,10 +8,12 @@
 
 import type { Args } from "./types.ts";
 import Flags from "./utils/args/flags.ts";
-import { output } from "./commands/httpRequest.ts";
+import checkRequiredArgs from "./utils/args/requiredArgs.ts";
 import helpCommand from "./commands/help.ts";
 import versionCommand from "./commands/version.ts";
 import parse from "./utils/args/parser.ts";
+import output from "./utils/output.ts";
+import customFetch from "./utils/customFetch.ts";
 
 const denoArgs = Deno.args;
 const args = parse(denoArgs);
@@ -26,7 +28,9 @@ if (args && !flagValidation?.error) {
   } else if (flags?.version) {
     console.log(versionCommand);
   } else {
-    await output(args);
+    const fullArgs = checkRequiredArgs(args);
+    const response = await customFetch(fullArgs);
+    output(response);
   }
 }
 

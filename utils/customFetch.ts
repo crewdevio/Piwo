@@ -11,7 +11,7 @@ import { HandleResponseData } from "./validate.ts";
 
 async function customFetch(config: Required<Args>): Promise<Output> {
   const { method, body, flags, url: URL } = config;
-  const form = flags.form;
+  const form = flags?.form;
   const hasProtocol = URL.includes("http");
   const testedProtocols = {
     HTTPS: false,
@@ -49,7 +49,7 @@ async function customFetch(config: Required<Args>): Promise<Output> {
           headers: form ? undefined : {
             "Content-Type": "application/json",
           },
-          body,
+          body: body as BodyInit | FormData,
         });
       }
     } catch {

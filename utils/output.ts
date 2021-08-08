@@ -9,7 +9,7 @@
 import type { Output } from "../types.ts";
 import colorizeData from "./color/colorize.ts";
 
-function outputResponse(data: Output) {
+function output(data: Output) {
   const { protocol, status, ok, headers, body } = colorizeData(data);
 
   const outputBody = body ? `\n${body}` : "";
@@ -17,4 +17,4 @@ function outputResponse(data: Output) {
   console.log(`${protocol} ${status}/${ok}\n${headers + outputBody}`);
 }
 
-export default outputResponse;
+export default output;
