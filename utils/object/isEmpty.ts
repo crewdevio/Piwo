@@ -1,8 +1,9 @@
-function isEmpty<T extends string | number>(obj: string | FormData | Record<T, unknown> | undefined) {
-	console.log(!Object.values(obj as Record<T, unknown>).length);
-	if (!obj || !Object.values(obj).length) return true;
-	if (!Object.values(new FormData().values()).length) return true;
+export function isEmpty(obj: Record<string, unknown>) {
+	if (!obj || !Object.entries(obj).length) return true;
   return false;
 }
 
-export default isEmpty;
+export function isFormDataEmpty(obj: FormData) {
+	if (!obj || !obj.entries()) return true;
+	return false;
+}

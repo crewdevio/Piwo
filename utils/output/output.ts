@@ -6,8 +6,8 @@
  *
  */
 
-import type { Output } from "../types.ts";
-import colorizeData from "./color/colorize.ts";
+import type { Output } from "../../types.ts";
+import colorizeData from "../color/colorize.ts";
 
 function output(data: Output) {
   const { protocol, status, ok, headers, body } = colorizeData(data);

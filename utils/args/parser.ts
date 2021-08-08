@@ -10,7 +10,7 @@ import type { Args, Method } from "../../types.ts";
 import Flags from "./flags.ts";
 import regex from "./regex.ts";
 import Body from "./body.ts";
-import isEmpty from "../object/isEmpty.ts"
+import { isEmpty } from "../object/isEmpty.ts"
 
 function parse(args: string[]) {
   if (!args.length) return;

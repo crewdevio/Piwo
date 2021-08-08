@@ -12,7 +12,7 @@ import checkRequiredArgs from "./utils/args/requiredArgs.ts";
 import helpCommand from "./commands/help.ts";
 import versionCommand from "./commands/version.ts";
 import parse from "./utils/args/parser.ts";
-import output from "./utils/output.ts";
+import output from "./utils/output/output.ts";
 import customFetch from "./utils/customFetch.ts";
 
 const denoArgs = Deno.args;

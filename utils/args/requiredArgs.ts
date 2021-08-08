@@ -8,10 +8,12 @@
 
 import type { Args } from "../../types.ts";
 import { error, warn } from "../output/fail.ts";
-import isEmpty from "../object/isEmpty.ts";
+import { isEmpty, isFormDataEmpty } from "../object/isEmpty.ts";
 
 function checkRequiredArgs(config: Args): Required<Args> {
-  const { method, url, body, flags } = config;
+  const { method, url, flags } = config;
+  let { body } = config
+
   if (!method) {
     error("[METHOD]");
     Deno.exit();
@@ -20,14 +22,24 @@ function checkRequiredArgs(config: Args): Required<Args> {
     error("[URL]");
     Deno.exit();
   }
-  if (method !== "GET" && isEmpty(body)) {
-    warn("[BODY]");
+  if (method !== "GET") {
+    if (flags?.form ) {
+      if (isFormDataEmpty(body as FormData)) {
+        warn("[BODY]");
+        body = "";
+      }
+    } else {
+      if (isEmpty(body as Record<string, unknown>)) {
+        warn("[BODY]")
+        body = "";
+      }
+    }
   }
 
   return {
     method,
     url,
-    body: isEmpty(body) ? "" : body!,
+    body: body!,
     flags: flags!,
   };
 }
