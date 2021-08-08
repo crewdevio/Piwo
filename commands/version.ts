@@ -6,7 +6,7 @@
  *
  */
 
-import { purple, yellow } from "../utils/colors.ts";
-import { name, version }from "../info.ts";
+import { purple, yellow } from "../utils/color/colors.ts";
+import { name, version } from "../info.ts";
 
 export default `${purple(name)}: ${yellow(version)}`;

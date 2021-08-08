@@ -20,7 +20,7 @@ export const nullColor = red;
 export const numberAndBoolColor = yellow;
 
 function coloredText(...color: number[]) {
-	const [ r, g, b] = color;
-	const rgb = { r, g, b };
-	return (text: string | number) => rgb24(String(text), rgb);
+  const [r, g, b] = color;
+  const rgb = { r, g, b };
+  return (text: string | number) => rgb24(String(text), rgb);
 }

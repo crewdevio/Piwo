@@ -6,11 +6,10 @@
  *
  */
 
-import { purple, yellow } from "../utils/colors.ts";
+import { purple, yellow } from "../utils/color/colors.ts";
 import { name } from "../info.ts";
 
-export default
-`${purple("USAGE:")}
+export default `${purple("USAGE:")}
   ${name.toLowerCase()} ${yellow("[OPTIONS] [METHOD] [URL] [BODY]")}
 
 ${purple("OPTIONS:")}

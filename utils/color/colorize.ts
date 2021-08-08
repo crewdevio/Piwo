@@ -6,32 +6,37 @@
  *
  */
 
-import type { CustomHeaders, Output } from "../types.ts";
+import type { CustomHeaders, Output } from "../../types.ts";
+import { bold } from "fmt/colors.ts";
+import { isJson } from "../validate.ts";
+import regex from "./regex.ts";
 import {
   blue,
   keyColor,
   nullColor,
+  numberAndBoolColor,
   purple,
   red,
   stringColor,
   yellow,
-	numberAndBoolColor,
 } from "./colors.ts";
-import { bold } from "fmt/colors.ts";
-import { isJson } from "./validate.ts"
 
 function colorizeData({ protocol, status, ok, headers, body }: Output) {
   return {
     protocol: purple(protocol),
-    status: status >= 400
-      ? red(status)
-      : status <= 299
-      ? blue(status)
-      : yellow(status),
+    status: colorizeStatus(status),
     ok: ok ? blue("OK") : red("ERROR"),
     headers: colorizeHeader(headers),
     body: isJson(JSON.stringify(body)) ? colorizeJson(body!) : body,
   };
+}
+
+function colorizeStatus(status: number) {
+  return status >= 400
+    ? red(status)
+    : status < 300
+    ? blue(status)
+    : yellow(status);
 }
 
 function colorizeHeader(headers: CustomHeaders) {
@@ -43,20 +48,19 @@ function colorizeHeader(headers: CustomHeaders) {
 }
 
 function colorizeJson(body: string | Record<string, unknown>) {
-	const jsonRegex = /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
   const json = JSON.stringify(body, null, 2);
 
-  return json.replace(jsonRegex, match => {
-		if (/^"/.test(match)) {
-			if (/:$/.test(match)) {
-				return bold(keyColor(match.slice(0, -1))) + ":";
-			}
-			return stringColor(match);
-		}
-		if (/null/.test(match)) return nullColor(match);
+  return json.replace(regex.json, (match) => {
+    if (regex.string.test(match)) {
+      if (regex.key.test(match)) {
+        return bold(keyColor(match.slice(0, -1))) + ":";
+      }
+      return stringColor(match);
+    }
+    if (regex.null.test(match)) return nullColor(match);
 
-		return numberAndBoolColor(match);
-	});
+    return numberAndBoolColor(match);
+  });
 }
 
 export default colorizeData;

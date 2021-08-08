@@ -7,7 +7,7 @@
  */
 
 import type { Args } from "../../types.ts";
-import { purple, red, yellow } from "../colors.ts";
+import { purple, red, yellow } from "../color/colors.ts";
 
 class Flags {
   static parse(flags: Record<string, true>) {

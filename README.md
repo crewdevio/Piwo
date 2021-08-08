@@ -6,7 +6,8 @@
 
 ## About
 
-Piwo is a friendly command-line tool to do HTTP request to a API server. Sending request body as JSON.
+Piwo is a friendly command-line tool to do HTTP request to a API server. Sending
+request body as JSON.
 
 ## Installation
 
@@ -17,7 +18,6 @@ deno install --allow-net --import-map=https://deno.land/x/piwo/import_map.json -
 The permissions that Piwo uses are:
 
 - --allow-net
-
 
 ## Updating Piwo
 
@@ -37,7 +37,6 @@ piwo --version
 trex exec piwo [...args] or trex exec piwo@[version] [...args]
 ```
 
-
 ## Usage
 
 ### Syntax
@@ -46,9 +45,11 @@ trex exec piwo [...args] or trex exec piwo@[version] [...args]
 piwo [METHOD] [URL] [BODY]
 ```
 
-`METHOD`: must be uppercase and they can be `GET`, `POST`, `PUT`, `PATCH` and `DELETE`. If you don't send a method Piwo will make a `GET` (default) request.
+`METHOD`: must be uppercase and they can be `GET`, `POST`, `PUT`, `PATCH` and
+`DELETE`. If you don't send a method Piwo will make a `GET` (default) request.
 
-`URL`: you can omit the protocol (http or https), Piwo will first make a request to https, if the response fails then will make a request with the http protocol.
+`URL`: you can omit the protocol (http or https), Piwo will first make a request
+to https, if the response fails then will make a request with the http protocol.
 
 `BODY`: The body that you will send is a JSON.
 
@@ -111,10 +112,16 @@ piwo --form POST localhost:3000/ search_query="foo bar"
 ## Some nice tips
 
 ### How URL argument works
-When you're doing a request you can omit the protocol, Piwo will make a request with https, if get not response then will try with http protocol and then will output the response of the server or a msg that couldn't connect when no server is found.
+
+When you're doing a request you can omit the protocol, Piwo will make a request
+with https, if get not response then will try with http protocol and then will
+output the response of the server or a msg that couldn't connect when no server
+is found.
 
 When you send the URL with protocol Piwo will not check the other protocol.
 
-If you're sure that the server is on http protocol, we recommend you to pass the protocol in the url, is faster because piwo will do a direct request with the procotol and will not check the https procotol.
+If you're sure that the server is on http protocol, we recommend you to pass the
+protocol in the url, is faster because piwo will do a direct request with the
+procotol and will not check the https procotol.
 
 If the url is a localhost, then will try directly with HTTP.

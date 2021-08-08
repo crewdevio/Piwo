@@ -26,6 +26,7 @@ export async function HandleResponseData<T extends unknown>(
 }
 
 export function isJson(text: string) {
-  return text.startsWith("{") && text.endsWith("}") ||
-    text.startsWith("[") && text.endsWith("]");
+  const object = text.startsWith("{") && text.endsWith("}");
+  const array = text.startsWith("[") && text.endsWith("]");
+  return object || array;
 }
