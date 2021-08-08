@@ -6,7 +6,7 @@
  *
  */
 
-import type { CustomHeaders, Output } from "../../types.ts";
+import type { Output } from "../../types.ts";
 import { bold } from "fmt/colors.ts";
 import { isJson } from "../validate.ts";
 import regex from "./regex.ts";
@@ -39,7 +39,7 @@ function colorizeStatus(status: number) {
     : yellow(status);
 }
 
-function colorizeHeader(headers: CustomHeaders) {
+function colorizeHeader(headers: Record<string, string>) {
   let colorized = "";
   for (const key in headers) {
     colorized += `${purple(key)}: ${headers[key]}\n`;

@@ -6,7 +6,7 @@
  *
  */
 
-import type { Args, CustomHeaders, Output } from "../types.ts";
+import type { Args, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
 async function customFetch(config: Args): Promise<Output> {
@@ -17,7 +17,7 @@ async function customFetch(config: Args): Promise<Output> {
   const hasProtocol = URL.includes("http");
   const testedProtocols = {
     HTTPS: false,
-    HTTP: false,
+    HTTP: false
   };
   const isLocalhost = URL.includes("localhost");
 
@@ -70,22 +70,26 @@ async function customFetch(config: Args): Promise<Output> {
 
   const data = await HandleResponseData<Record<string, unknown>>(response);
 
-  const headers: CustomHeaders = {
-    "access-control-allow-origin": response.headers.get(
-      "access-control-allow-origin",
-    )!,
-    "content-type": response.headers.get("content-type")!,
-    date: response.headers.get("date")!,
-    server: response.headers.get("server")!,
-  };
-
   return {
     ok: response.ok,
     protocol: response.url.includes("https") ? "HTTPS" : "HTTP",
     status: response.status,
-    headers,
+    headers: parseHeaders(response.headers),
     body: !form ? data : "",
   };
+}
+
+function parseHeaders(headers: Headers) {
+  const outputHeaders: Record<string, string> = {};
+
+  for (const [ key, value ] of headers) {
+    const allowedHeaders = /^content-type$|access-control-allow-origin|^server$|^date$|^content-length$|^connection$/;
+
+    if (!allowedHeaders.test(key)) continue;
+    outputHeaders[key] = key === "content-type" && value.includes("application/json") ? "application/json" : value;
+  }
+
+  return outputHeaders;
 }
 
 export default customFetch;

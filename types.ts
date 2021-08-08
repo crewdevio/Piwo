@@ -9,18 +9,11 @@
 export type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export type Protocol = "HTTP" | "HTTPS";
 
-export interface CustomHeaders extends Record<string, string> {
-  "access-control-allow-origin": string;
-  "content-type": string;
-  date: string;
-  server: string;
-}
-
 export interface Output {
   ok: boolean;
   protocol: Protocol;
   status: number;
-  headers: CustomHeaders;
+  headers: Record<string, string>;
   body?: Record<string, unknown> | string;
 }
 
