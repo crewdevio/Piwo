@@ -6,7 +6,5 @@
  *
  */
 
-export default {
-	name: "Piwo",
-	version: "v0.4.0",
-}
+export const name = "Piwo";
+export const version = "v0.4.0";

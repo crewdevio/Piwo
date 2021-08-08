@@ -7,11 +7,11 @@
  */
 
 import { purple, yellow } from "../utils/colors.ts";
-import info from "../info.ts";
+import { name } from "../info.ts";
 
 export default
 `${purple("USAGE:")}
-  ${info.name.toLowerCase()} ${yellow("[OPTIONS] [METHOD] [URL] [BODY]")}
+  ${name.toLowerCase()} ${yellow("[OPTIONS] [METHOD] [URL] [BODY]")}
 
 ${purple("OPTIONS:")}
   ${yellow("--help, -h")}      show help info
@@ -32,4 +32,4 @@ ${purple("BODY:")}
   send a body as JSON (default)
 
 ${purple("EXAMPLE:")}
-  ${info.name.toLowerCase()} api.github.com`;
+  ${name.toLowerCase()} api.github.com`;
