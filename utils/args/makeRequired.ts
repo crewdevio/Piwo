@@ -11,7 +11,7 @@ import { error, warn } from "../output/fail.ts";
 import { isEmpty, isFormDataEmpty } from "../object/isEmpty.ts";
 
 function makeRequired(config: Args): Required<Args> {
-  const { method, url, flags } = config;
+  const { method, url, flags, headers } = config;
   let { body } = config
 
   if (!method) {
@@ -41,6 +41,7 @@ function makeRequired(config: Args): Required<Args> {
     url,
     body: body!,
     flags: flags!,
+    headers: headers!
   };
 }
 

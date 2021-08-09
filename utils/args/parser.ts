@@ -30,6 +30,10 @@ function parse(args: string[]) {
     } else if (url.test(arg) && !parsedArgs.url) {
       parsedArgs.url = arg;
       parsedArgs.method ??= "GET";
+
+      if (arg.includes("localhost") && !arg.includes("http")) {
+        parsedArgs.url = "http://" + arg;
+      }
     } else {
       body.push(arg);
     }
@@ -37,11 +41,16 @@ function parse(args: string[]) {
 
   if (!isEmpty(flags)) parsedArgs.flags = Flags.parse(flags);
 
+  parsedArgs.headers = {
+    "Content-Type": "application/json"
+  }
+
   if (body.length) {
     const form = parsedArgs.flags?.form;
 
     if (form) {
       parsedArgs.body = Body.parseToFormData(body);
+      parsedArgs.headers = undefined;
     } else {
       parsedArgs.body = Body.parseToJSON(body);
     }

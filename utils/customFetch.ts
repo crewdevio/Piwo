@@ -10,14 +10,13 @@ import type { Args, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
 async function customFetch(config: Required<Args>): Promise<Output> {
-  const { method, body, flags, url: URL } = config;
+  const { method, body, flags, headers, url: URL } = config;
   const form = flags?.form;
   const hasProtocol = URL.includes("http");
   const testedProtocols = {
     HTTPS: false,
-    HTTP: false
+    HTTP: false,
   };
-  const isLocalhost = URL.includes("localhost");
 
   let testedLocalhostWithHTTP = false;
   let response: Response = null!;
@@ -25,10 +24,10 @@ async function customFetch(config: Required<Args>): Promise<Output> {
 
   while (!response) {
     const tryWithHTTP = !hasProtocol && !testedProtocols.HTTP &&
-      (testedProtocols.HTTPS || (isLocalhost && !testedLocalhostWithHTTP));
+      (testedProtocols.HTTPS || !testedLocalhostWithHTTP);
     let tryWithHTTPS = !hasProtocol && !testedProtocols.HTTPS;
-    tryWithHTTPS = !isLocalhost && tryWithHTTPS ||
-      (tryWithHTTPS && isLocalhost && testedLocalhostWithHTTP);
+    tryWithHTTPS = tryWithHTTPS ||
+      (tryWithHTTPS && testedLocalhostWithHTTP);
 
     if (tryWithHTTPS) {
       URLCopy = "https://" + URL;
@@ -46,9 +45,7 @@ async function customFetch(config: Required<Args>): Promise<Output> {
       } else {
         response = await fetch(URLCopy, {
           method,
-          headers: form ? undefined : {
-            "Content-Type": "application/json",
-          },
+          headers,
           body: body as BodyInit | FormData,
         });
       }
@@ -81,11 +78,15 @@ async function customFetch(config: Required<Args>): Promise<Output> {
 function parseHeaders(headers: Headers) {
   const outputHeaders: Record<string, string> = {};
 
-  for (const [ key, value ] of headers) {
-    const allowedHeaders = /^content-type$|access-control-allow-origin|^server$|^date$|^content-length$|^connection$/;
+  for (const [key, value] of headers) {
+    const allowedHeaders =
+      /^content-type$|access-control-allow-origin|^server$|^date$|^content-length$|^connection$/;
 
     if (!allowedHeaders.test(key)) continue;
-    outputHeaders[key] = key === "content-type" && value.includes("application/json") ? "application/json" : value;
+    outputHeaders[key] =
+      key === "content-type" && value.includes("application/json")
+        ? "application/json"
+        : value;
   }
 
   return outputHeaders;
