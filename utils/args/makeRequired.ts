@@ -10,7 +10,7 @@ import type { Args } from "../../types.ts";
 import { error, warn } from "../output/fail.ts";
 import { isEmpty, isFormDataEmpty } from "../object/isEmpty.ts";
 
-function checkRequiredArgs(config: Args): Required<Args> {
+function makeRequired(config: Args): Required<Args> {
   const { method, url, flags } = config;
   let { body } = config
 
@@ -44,4 +44,4 @@ function checkRequiredArgs(config: Args): Required<Args> {
   };
 }
 
-export default checkRequiredArgs;
+export default makeRequired;
