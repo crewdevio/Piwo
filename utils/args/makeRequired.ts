@@ -12,7 +12,7 @@ import { isEmpty, isFormDataEmpty } from "../object/isEmpty.ts";
 
 function makeRequired(config: Args): Required<Args> {
   const { method, url, flags, headers } = config;
-  let { body } = config
+  let { body } = config;
 
   if (!method) {
     error("[METHOD]");
@@ -23,14 +23,14 @@ function makeRequired(config: Args): Required<Args> {
     Deno.exit();
   }
   if (method !== "GET") {
-    if (flags?.form ) {
+    if (flags?.form) {
       if (isFormDataEmpty(body as FormData)) {
         warn("[BODY]");
         body = "";
       }
     } else {
       if (isEmpty(body as Record<string, unknown>)) {
-        warn("[BODY]")
+        warn("[BODY]");
         body = "";
       }
     }
@@ -41,7 +41,7 @@ function makeRequired(config: Args): Required<Args> {
     url,
     body: body!,
     flags: flags!,
-    headers: headers!
+    headers: headers!,
   };
 }
 

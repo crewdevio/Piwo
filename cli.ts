@@ -18,7 +18,7 @@ import customFetch from "./utils/customFetch.ts";
 const denoArgs = Deno.args;
 const args = parse(denoArgs);
 
-console.log(args)
+console.log(args);
 
 const flagValidation = Flags.validate(args);
 

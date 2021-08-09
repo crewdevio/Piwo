@@ -28,7 +28,7 @@ async function unexpectedMessage(config: Record<string, unknown>) {
     `${messageType}: miss ${yellow((miss as string).toUpperCase())}`,
   );
 
-	if (error) Deno.exit();
+  if (error) Deno.exit();
 }
 
 async function unexpectedFlagMessage(config: Record<string, unknown>) {
