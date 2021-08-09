@@ -39,7 +39,7 @@ function makeRequired(config: Args): Required<Args> {
   return {
     method,
     url,
-    body: body!,
+    body: body || undefined!,
     flags: flags!,
     headers: headers!,
   };
