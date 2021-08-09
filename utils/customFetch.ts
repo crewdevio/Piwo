@@ -46,7 +46,7 @@ async function customFetch(config: Required<Args>): Promise<Output> {
         response = await fetch(URLCopy, {
           method,
           headers,
-          body: body as BodyInit | FormData,
+          body: !form ? JSON.stringify(body as BodyInit) : body as FormData,
         });
       }
     } catch {
