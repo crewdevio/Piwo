@@ -10,15 +10,16 @@ import type { Args, Method } from "../../types.ts";
 import Flags from "./flags.ts";
 import regex from "./regex.ts";
 import Body from "./body.ts";
-import { isEmpty } from "../object/isEmpty.ts";
+import { error, warn } from "../output/fail.ts";
+import { isEmpty, isFormDataEmpty } from "../object/isEmpty.ts";
 
 function parse(args: string[]) {
   if (!args.length) return;
 
   const { flag, shortFlag, method, url } = regex;
   const flags: Record<string, true> = {};
-  const parsedArgs: Args = {};
   const body: string[] = [];
+  const parsedArgs: Args = {}
 
   args.forEach((arg) => {
     if (flag.test(arg)) {
@@ -39,7 +40,7 @@ function parse(args: string[]) {
     }
   });
 
-  if (!isEmpty(flags)) parsedArgs.flags = Flags.parse(flags);
+  parsedArgs.flags = Flags.parse(flags);
 
   parsedArgs.headers = {
     "Content-Type": "application/json",
@@ -56,7 +57,40 @@ function parse(args: string[]) {
     }
   }
 
-  return parsedArgs;
+  const result = parsedArgs as Required<Args>;
+
+  validate(result);
+  return result;
+}
+
+function validate(args: Required<Args>) {
+  const { method, url, flags } = args;
+  let { body } = args;
+
+  const pass = Flags.validate(args);
+  if (!pass || flags.version) return;
+
+  if (!method) {
+    error("[METHOD]");
+    Deno.exit();
+  }
+  if (!url) {
+    error("[URL]");
+    Deno.exit();
+  }
+  if (method !== "GET") {
+    if (flags?.form) {
+      if (isFormDataEmpty(body as FormData)) {
+        warn("[BODY]");
+        body = "";
+      }
+    } else {
+      if (isEmpty(body as Record<string, unknown>)) {
+        warn("[BODY]");
+        body = "";
+      }
+    }
+  }
 }
 
 export default parse;

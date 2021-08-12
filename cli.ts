@@ -6,9 +6,6 @@
  *
  */
 
-import type { Args } from "./types.ts";
-import Flags from "./utils/args/flags.ts";
-import makeRequired from "./utils/args/makeRequired.ts";
 import helpCommand from "./commands/help.ts";
 import versionCommand from "./commands/version.ts";
 import parse from "./utils/args/parser.ts";
@@ -18,20 +15,15 @@ import customFetch from "./utils/customFetch.ts";
 const denoArgs = Deno.args;
 const args = parse(denoArgs);
 
-const flagValidation = Flags.validate(args);
+if (args) {
+  const { flags } = args;
 
-if (args && !flagValidation?.error) {
-  const { flags } = args as Args;
-
-  if (flags?.help) {
+  if (flags.help) {
     console.log(helpCommand);
-  } else if (flags?.version) {
+  } else if (flags.version) {
     console.log(versionCommand);
   } else {
-    const fullArgs = makeRequired(args);
-    const response = await customFetch(fullArgs);
-    output(response);
+    output(await customFetch(args));
   }
 }
-
-if (!args) console.log(helpCommand);
+else console.log(helpCommand);

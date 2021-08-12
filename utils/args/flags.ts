@@ -30,18 +30,13 @@ class Flags {
     return result;
   }
 
-  static validate(args: Args | undefined) {
-    if (!args) return;
-
+  static validate(args: Required<Args>) {
     const { flags } = args;
 
-    if (!flags) return;
+    if (!flags) return false;
 
     if (flags.version && (args.method || args.url || args.body)) {
-      return {
-        msg: warn("--version"),
-        error: false,
-      };
+      warn("--version");
     }
 
     if (flags.form && (!args.method || !args.url || !args.body)) {
@@ -56,11 +51,9 @@ class Flags {
         miss += addComma(miss) + `${yellow("[BODY]")}`;
       }
 
-      return {
-        msg: error("--form", miss),
-        error: true,
-      };
+      error("--form", miss);
     }
+    return true;
   }
 }
 
