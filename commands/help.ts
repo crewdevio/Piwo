@@ -9,8 +9,10 @@
 import { purple, yellow } from "../utils/color/colors.ts";
 import { name } from "../info.ts";
 
+const cliName = name.toLowerCase();
+
 export default `${purple("USAGE:")}
-  ${name.toLowerCase()} ${yellow("[OPTIONS] [METHOD] [URL] [BODY]")}
+  ${cliName} ${yellow("[OPTIONS] [METHOD] [URL] [BODY]")}
 
 ${purple("OPTIONS:")}
   ${yellow("--help, -h")}      show help info
@@ -31,4 +33,4 @@ ${purple("BODY:")}
   send a body as JSON (default)
 
 ${purple("EXAMPLE:")}
-  ${name.toLowerCase()} api.github.com`;
+  ${cliName} api.github.com`;
