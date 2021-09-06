@@ -41,6 +41,7 @@ function inputToObject(body: string[]) {
   return `{ ${result} }`;
 }
 
+// FIXME: should keep commas and brackets out of string
 function stringifyInput(body: string[]) {
   body = [""].concat(body);
   return body.reduce((acc, property) => {
