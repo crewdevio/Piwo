@@ -6,6 +6,8 @@
  *
  */
 
+import { readBody, dontNeedToBeMutated, body as rgxBody } from "../../regex.ts";
+
 class Body {
   static parseToJSON(body: string[]) {
     return JSON.parse(inputToObject(body));
@@ -26,20 +28,12 @@ class Body {
 }
 
 function inputToObject(body: string[]) {
-  const regex =
-    /(?=[a-zA-Z0-9-_]+=)?=|(?=(\s?)[a-zA-Z0-9-_"]+(\s?))\s|[a-zA-Z0-9-_.@]+|("(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"(\s*=)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g;
+  const { equal, getSpacebar } = rgxBody;
   const stringified = stringifyInput(body);
-  const result = stringified.replace(regex, (match) => {
-    if (/=/.test(match)) return `: `;
-
-    if (
-      /"(\\u[a-zA-Z0-9]+|\\[^u]|[^\\"])*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/
-        .test(match)
-    ) {
-      return match;
-    }
-
-    if (/\s/.test(match)) return ", ";
+  const result = stringified.replace(readBody, (match) => {
+    if (dontNeedToBeMutated.test(match)) return match;
+    if (equal.test(match)) return `: `;
+    if (getSpacebar.test(match)) return ", ";
 
     return `"${match}"`;
   });
@@ -52,8 +46,10 @@ function stringifyInput(body: string[]) {
   return body.reduce((acc, property) => {
     const splited = property.split("=");
     const restOfKeys = splited.slice(0, -2).join("=");
-    const [key, value] = splited.slice(-2);
     const whitespace = acc ? " " : "";
+    let [key, value] = splited.slice(-2);
+
+    key = key.match(/\s/) ? `"${key}"` : key;
 
     if (value) {
       const text = handleKeyAndValue({ restOfKeys, key, value });

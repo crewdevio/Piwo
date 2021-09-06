@@ -7,24 +7,25 @@
  */
 
 import type { Args, Method } from "../../types.ts";
-import Flags from "./flags.ts";
-import regex from "./regex.ts";
-import Body from "./body.ts";
-import { error, warn } from "../output/fail.ts";
 import { isEmpty, isFormDataEmpty } from "../object/isEmpty.ts";
+import { error, warn } from "../output/fail.ts";
+import { args } from "../../regex.ts";
+import Flags from "./flags.ts";
+import Body from "./body.ts";
+
+const { flag, option, method, url } = args;
 
 function parse(args: string[]) {
   if (!args.length) return;
 
-  const { flag, shortFlag, method, url } = regex;
   const flags: Record<string, true> = {};
   const body: string[] = [];
-  const parsedArgs: Args = {}
+  const parsedArgs: Args = {};
 
   args.forEach((arg) => {
     if (flag.test(arg)) {
       flags[arg.slice(1)] = true;
-    } else if (shortFlag.test(arg)) {
+    } else if (option.test(arg)) {
       flags[arg.slice(2)] = true;
     } else if (method.test(arg)) {
       parsedArgs.method = arg as Method;
