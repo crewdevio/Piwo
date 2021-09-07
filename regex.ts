@@ -59,7 +59,7 @@ export const body = {
 const { getEqual, getSpacebar, getNumber, getBoolNull } = body;
 
 export const readBody = new RegExp(
-  `${getString.source}|${getEqual.source}|${getSpacebar.source}|${getNumber.source}|${getBoolNull.source}`,
+  `${getString.source}|${getEqual.source}|${getSpacebar.source}`,
   "g",
 );
 
