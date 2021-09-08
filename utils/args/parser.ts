@@ -44,7 +44,9 @@ function parse(args: string[]) {
   parsedArgs.flags = Flags.parse(flags);
 
   if (parsedArgs.flags.help || parsedArgs.flags.h || parsedArgs.flags.v || parsedArgs.flags.version) {
-    return parsedArgs as Required<Args>;
+    const result = parsedArgs as Required<Args>;
+    Flags.validate(result);
+    return result;
   }
 
   parsedArgs.headers = {
