@@ -15,6 +15,7 @@ import Body from "./body.ts";
 
 const { flag, option, method, url } = args;
 
+// TODO: Make this code more readable
 function parse(args: string[]) {
   if (!args.length) return;
 
@@ -49,6 +50,10 @@ function parse(args: string[]) {
     return result;
   }
 
+  if (parsedArgs.method === "GET") {
+    return parsedArgs as Required<Args>;
+  }
+
   parsedArgs.headers = {
     "Content-Type": "application/json",
   };
@@ -70,6 +75,7 @@ function parse(args: string[]) {
   return result;
 }
 
+// TODO: Make this code more readable
 function validate(args: Required<Args>) {
   const { method, url, flags } = args;
   let { body } = args;

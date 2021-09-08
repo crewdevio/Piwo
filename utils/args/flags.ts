@@ -30,6 +30,7 @@ class Flags {
     return result;
   }
 
+  // TODO: Refactor?
   static validate(args: Required<Args>) {
     const { flags } = args;
 

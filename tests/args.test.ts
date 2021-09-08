@@ -56,8 +56,37 @@ test.assertEqual("GET Protocol to api.github.com", {
       url: "api.github.com",
       method: "GET",
       flags: {},
-      headers: { "Content-Type": "application/json" },
     };
   },
 });
 
+test.assertEqual("POST: send a email", {
+  expect() {
+    return parse(["POST", "localhost:8080", "email=foo@bar.com"]);
+  },
+  toBe(): ArgResult {
+    return {
+      method: "POST",
+      url: "http://localhost:8080",
+      flags: {},
+      headers: { "Content-Type": "application/json" },
+      body: { email: "foo@bar.com" },
+    };
+  },
+});
+
+test.assertEqual("POST: send a url", {
+  expect() {
+    return parse(["POST", "localhost:8080", "url=http://localhost:8080/api/foo_bar"]);
+  },
+  toBe(): ArgResult {
+    return {
+      method: "POST",
+      url: "http://localhost:8080",
+      flags: {},
+      headers: { "Content-Type": "application/json" },
+      body: { url: "url=http://localhost:8080/api/foo_bar" },
+    };
+  },
+	ignore: true
+});
