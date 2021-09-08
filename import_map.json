@@ -1,5 +1,6 @@
 {
   "imports": {
-    "fmt/": "https://deno.land/std@0.101.0/fmt/"
+    "fmt/": "https://deno.land/std@0.101.0/fmt/",
+    "merlin": "https://deno.land/x/merlin/mod.ts"
   }
 }

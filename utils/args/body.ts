@@ -8,8 +8,9 @@
 
 import { readBody, dontNeedToBeMutated, body as rgxBody } from "../../regex.ts";
 
-class Body {
+export default class Body {
   static parseToJSON(body: string[]) {
+    console.log(body);
     return JSON.parse(inputToObject(body));
   }
 
@@ -41,7 +42,6 @@ function inputToObject(body: string[]) {
   return `{ ${result} }`;
 }
 
-// FIXME: should keep commas and brackets out of string
 function stringifyInput(body: string[]) {
   body = [""].concat(body);
   return body.reduce((acc, property) => {
@@ -118,5 +118,3 @@ function removeBrackets(text: string) {
 
   return { clearedText, brackets };
 }
-
-export default Body;

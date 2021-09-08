@@ -43,6 +43,10 @@ function parse(args: string[]) {
 
   parsedArgs.flags = Flags.parse(flags);
 
+  if (parsedArgs.flags.help || parsedArgs.flags.h || parsedArgs.flags.v || parsedArgs.flags.version) {
+    return parsedArgs as Required<Args>;
+  }
+
   parsedArgs.headers = {
     "Content-Type": "application/json",
   };
