@@ -1,6 +1,6 @@
 import { Merlin } from "merlin";
 import parse from "../utils/args/parser.ts";
-import { Args } from "../types.ts";
+import type { Args } from "../types.ts";
 
 const test = new Merlin();
 
@@ -202,7 +202,6 @@ test.assertEqual("PATCH: with object and array", {
       },
     };
   },
-  // ignore: true
 });
 
 test.assertEqual("DELETE", {

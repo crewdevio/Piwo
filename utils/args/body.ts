@@ -10,7 +10,6 @@ import { readBody, dontNeedToBeMutated, body as rgxBody } from "../../regex.ts";
 
 export default class Body {
   static parseToJSON(body: string[]) {
-    console.log(body);
     return JSON.parse(inputToObject(body));
   }
 
