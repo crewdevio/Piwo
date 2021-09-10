@@ -44,7 +44,10 @@ function parse(args: string[]) {
 
   parsedArgs.flags = Flags.parse(flags);
 
-  if (parsedArgs.flags.help || parsedArgs.flags.h || parsedArgs.flags.v || parsedArgs.flags.version) {
+  if (
+    parsedArgs.flags.help || parsedArgs.flags.h || parsedArgs.flags.v ||
+    parsedArgs.flags.version
+  ) {
     const result = parsedArgs as Required<Args>;
     Flags.validate(result);
     return result;
@@ -54,10 +57,6 @@ function parse(args: string[]) {
     return parsedArgs as Required<Args>;
   }
 
-  parsedArgs.headers = {
-    "Content-Type": "application/json",
-  };
-
   if (body.length) {
     const form = parsedArgs.flags?.form;
 
@@ -66,6 +65,9 @@ function parse(args: string[]) {
       parsedArgs.headers = undefined;
     } else {
       parsedArgs.body = Body.parseToJSON(body);
+      parsedArgs.headers = {
+        "Content-Type": "application/json",
+      };
     }
   }
 

@@ -9,7 +9,7 @@
 export const args = {
   flag: /(^\-[a-z]$)/,
   option: /(^\--[a-z-]+$)/,
-  method: /GET|POST|PUT|PATH|DELETE/,
+  method: /GET|POST|PUT|PATCH|DELETE/,
   url:
     /^((http(s?)\:\/\/|www\.)?)(((?:\/[\+~%\/\.\w\-_]*)?\??(?:[:\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w?=-]*))?)$/,
 };
