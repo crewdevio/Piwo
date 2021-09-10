@@ -93,7 +93,7 @@ function validate(args: Required<Args>) {
     error("[URL]");
     Deno.exit();
   }
-  if (method !== "GET") {
+  if (method !== "GET" && method !== "DELETE") {
     if (flags?.form) {
       if (isFormDataEmpty(body as FormData)) {
         warn("[BODY]");

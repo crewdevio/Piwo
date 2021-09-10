@@ -216,7 +216,6 @@ test.assertEqual("DELETE", {
       flags: {},
     };
   },
-  ignore: true
 });
 
 test.assertEqual("POST a formData with -f flag", {
@@ -251,6 +250,7 @@ test.assertEqual("POST a formData with -f flag", {
       method: "POST",
       url: "http://localhost:8080",
       flags: { form: true },
+      headers: undefined,
       body: formData,
     };
 
