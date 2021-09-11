@@ -6,7 +6,7 @@
  *
  */
 
-import { readBody, dontNeedToBeMutated, body as rgxBody } from "../../regex.ts";
+import { body as rgxBody, dontNeedToBeMutated, readBody } from "../../regex.ts";
 
 export default class Body {
   static parseToJSON(body: string[]) {
@@ -14,16 +14,12 @@ export default class Body {
   }
 
   static parseToFormData(body: string[]) {
-    if (!body.length) return;
+    const fd = new FormData();
+    const json = this.parseToJSON(body);
 
-    const formData = new FormData();
-    const objectData = JSON.parse(inputToObject(body) as string);
+    Object.keys(json).map((key: string) => fd.append(key, json[key]));
 
-    for (const key in objectData) {
-      formData.append(key, objectData[key]);
-    }
-
-    return formData;
+    return fd;
   }
 }
 
