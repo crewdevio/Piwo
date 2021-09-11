@@ -60,12 +60,25 @@ test.assertEqual("GET (explicit): api.github.com", {
   },
   toBe(): ArgResult {
     return {
-      url: "api.github.com",
       method: "GET",
       flags: {},
+      url: "api.github.com",
     };
   },
 });
+
+test.assertEqual("complex url", {
+  expect() {
+    return parse(["localhost:8080/[pgk]/?id=20"])
+  },
+  toBe(): ArgResult {
+    return {
+      url: "http://localhost:8080/[pgk]/?id=20",
+      method: "GET",
+      flags: {},
+    }
+  }
+})
 
 test.assertEqual("POST: send a email", {
   expect() {

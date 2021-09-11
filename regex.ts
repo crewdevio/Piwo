@@ -6,12 +6,14 @@
  *
  */
 
+const validURLChars =/[0-z-._~:/?#\[\]@!$&'()*+,;=%]+/;
+const protocolOrWWW = /((http(s?)\:\/\/|www\.)?)/;
+
 export const args = {
   flag: /(^\-[a-z]$)/,
   option: /(^\--[a-z-]+$)/,
   method: /GET|POST|PUT|PATCH|DELETE/,
-  url:
-    /^((http(s?)\:\/\/|www\.)?)(((?:\/[\+~%\/\.\w\-_]*)?\??(?:[:\-\+=&;%@\.\w_]*)#?(?:[\.\!\/\\\w?=-]*))?)$/,
+  url: new RegExp(`^${protocolOrWWW.source}${validURLChars.source}(\\.|\\:)${validURLChars.source}$`)
 };
 
 export const json = {
