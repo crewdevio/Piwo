@@ -66,5 +66,5 @@ export const readBody = new RegExp(
 );
 
 export const dontNeedToBeMutated = new RegExp(
-  `${bodyString.withQuotes.source}|${getBoolNull.source}|${getNumber.source}`,
+  `^(${bodyString.withQuotes.source}|${getBoolNull.source}|${getNumber.source})$`,
 );

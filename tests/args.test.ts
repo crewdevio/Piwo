@@ -109,10 +109,9 @@ test.assertEqual("POST: send a url", {
       url: "http://localhost:8080",
       flags: {},
       headers: { "Content-Type": "application/json" },
-      body: { url: "url=http://localhost:8080/api/foo_bar" },
+      body: { url: "http://localhost:8080/api/foo_bar" },
     };
   },
-  ignore: true,
 });
 
 test.assertEqual("POST: multiple values", {
