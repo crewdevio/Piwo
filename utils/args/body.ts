@@ -7,12 +7,18 @@
  */
 
 import { dontNeedToBeMutated, readBody, equal } from "./regex.ts";
+import { red } from "../color/colors.ts";
 
 export default class Body {
   static parseToJSON(body: string[]) {
     const stringified = `{${body.map(replace).join(", ")}}`;
 
-    return JSON.parse(stringified);
+    try {
+      return JSON.parse(stringified);
+    } catch {
+      console.error(`${red("error")}: invalid body or input`);
+      Deno.exit();
+    }
   }
 
   static parseToFormData(body: string[]) {
