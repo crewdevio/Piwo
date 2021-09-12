@@ -49,7 +49,6 @@ test.assertEqual("GET: api.github.com", {
     return {
       url: "api.github.com",
       method: "GET",
-      flags: {},
     };
   },
 });
@@ -61,7 +60,6 @@ test.assertEqual("GET (explicit): api.github.com", {
   toBe(): ArgResult {
     return {
       method: "GET",
-      flags: {},
       url: "api.github.com",
     };
   },
@@ -73,9 +71,8 @@ test.assertEqual("complex url", {
   },
   toBe(): ArgResult {
     return {
-      url: "http://localhost:8080/[pgk]/?id=20",
+      url: "localhost:8080/[pgk]/?id=20",
       method: "GET",
-      flags: {},
     }
   }
 })
@@ -87,8 +84,7 @@ test.assertEqual("POST: send a email", {
   toBe(): ArgResult {
     return {
       method: "POST",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
       headers: { "Content-Type": "application/json" },
       body: { email: "foo@bar.com" },
     };
@@ -106,8 +102,7 @@ test.assertEqual("POST: send a url", {
   toBe(): ArgResult {
     return {
       method: "POST",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
       headers: { "Content-Type": "application/json" },
       body: { url: "http://localhost:8080/api/foo_bar" },
     };
@@ -121,8 +116,7 @@ test.assertEqual("POST: multiple values", {
   toBe(): ArgResult {
     return {
       method: "POST",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
       headers: { "Content-Type": "application/json" },
       body: { foo: "bar", bar: "foo" },
     };
@@ -136,8 +130,7 @@ test.assertEqual("POST: value with spaces", {
   toBe(): ArgResult {
     return {
       method: "POST",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
       headers: { "Content-Type": "application/json" },
       body: { foo: "one bar" },
     };
@@ -158,8 +151,7 @@ test.assertEqual("POST: with object and array", {
   toBe(): ArgResult {
     return {
       method: "POST",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
       headers: { "Content-Type": "application/json" },
       body: {
         person: { name: "Deno Merlin", age: 24, hobbies: ["test", "magic"] },
@@ -182,8 +174,7 @@ test.assertEqual("PUT: with object and array", {
   toBe(): ArgResult {
     return {
       method: "PUT",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
       headers: { "Content-Type": "application/json" },
       body: {
         person: { name: "Deno Merlin", age: 24, hobbies: ["test", "magic"] },
@@ -206,8 +197,7 @@ test.assertEqual("PATCH: with object and array", {
   toBe(): ArgResult {
     return {
       method: "PATCH",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
       headers: { "Content-Type": "application/json" },
       body: {
         person: { name: "Deno Merlin", age: 24, hobbies: ["test", "magic"] },
@@ -223,8 +213,7 @@ test.assertEqual("DELETE", {
   toBe(): ArgResult {
     return {
       method: "DELETE",
-      url: "http://localhost:8080",
-      flags: {},
+      url: "localhost:8080",
     };
   },
 });
@@ -259,7 +248,7 @@ test.assertEqual("POST a formData with -f flag", {
 
     const result: ArgResult = {
       method: "POST",
-      url: "http://localhost:8080",
+      url: "localhost:8080",
       flags: { form: true },
       headers: undefined,
       body: formData,

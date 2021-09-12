@@ -18,9 +18,9 @@ const args = parse(denoArgs);
 if (args) {
   const { flags } = args;
 
-  if (flags.help) {
+  if (flags?.help) {
     console.log(helpCommand);
-  } else if (flags.version) {
+  } else if (flags?.version) {
     console.log(versionCommand);
   } else {
     output(await customFetch(args));

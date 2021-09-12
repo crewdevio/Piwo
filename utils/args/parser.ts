@@ -13,68 +13,38 @@ import { args } from "../../regex.ts";
 import Flags from "./flags.ts";
 import Body from "./body.ts";
 
-const { flag, option, method, url } = args;
+const { flag, method, url } = args;
 
-// TODO: Make this code more readable
 function parse(args: string[]) {
   if (!args.length) return;
 
-  const flags: Record<string, true> = {};
+  const obj: Args = {};
   const body: string[] = [];
-  const parsedArgs: Args = {};
 
   args.forEach((arg) => {
-    if (flag.test(arg)) {
-      flags[arg.slice(1)] = true;
-    } else if (option.test(arg)) {
-      flags[arg.slice(2)] = true;
-    } else if (method.test(arg)) {
-      parsedArgs.method = arg as Method;
-    } else if (url.test(arg) && !parsedArgs.url) {
-      parsedArgs.url = arg;
-      parsedArgs.method ??= "GET";
-
-      if (arg.includes("localhost") && !arg.includes("http")) {
-        parsedArgs.url = "http://" + arg;
-      }
+    if (arg.match(method)) {
+      obj.method = arg as Method;
+    } else if (arg.match(flag)) {
+      obj.flags ??= {};
+      obj.flags[Flags.parse(arg)] = true;
+    } else if (arg.match(url) && !obj.url) {
+      obj.url = arg;
     } else {
       body.push(arg);
     }
   });
 
-  parsedArgs.flags = Flags.parse(flags);
-
-  if (
-    parsedArgs.flags.help || parsedArgs.flags.h || parsedArgs.flags.v ||
-    parsedArgs.flags.version
-  ) {
-    const result = parsedArgs as Required<Args>;
-    Flags.validate(result);
-    return result;
-  }
-
-  if (parsedArgs.method === "GET") {
-    return parsedArgs as Required<Args>;
-  }
-
   if (body.length) {
-    const form = parsedArgs.flags?.form;
-
-    if (form) {
-      parsedArgs.body = Body.parseToFormData(body);
-      parsedArgs.headers = undefined;
-    } else {
-      parsedArgs.body = Body.parseToJSON(body);
-      parsedArgs.headers = {
-        "Content-Type": "application/json",
-      };
-    }
+    const form = obj.flags?.form;
+    obj.body = form ? Body.parseToFormData(body) : Body.parseToJSON(body);
+    obj.headers = !form ? { "Content-Type": "application/json" } : undefined;
   }
 
-  const result = parsedArgs as Required<Args>;
+  if (obj.url) {
+    obj.method ??= "GET";
+  }
 
-  validate(result);
-  return result;
+  return obj as Required<Args>;
 }
 
 // TODO: Make this code more readable

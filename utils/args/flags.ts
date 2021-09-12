@@ -11,23 +11,21 @@ import { yellow } from "../color/colors.ts";
 import { errorFlag as error, warnFlag as warn } from "../output/fail.ts";
 
 class Flags {
-  static parse(flags: Record<string, true>) {
-    const result: Record<string, true> = {};
-    const help = flags.help || flags.h;
-    const version = flags.version || flags.v;
-    const form = flags.form || flags.f;
+  static parse(flag: string) {
+    const replace: Record<string, string> = {
+      "--": "",
+      "-": "",
+      "h": "help",
+      "v": "version",
+      "f": "form",
+    };
 
-    if (help) {
-      result.help = help;
-    }
-    if (version) {
-      result.version = version;
-    }
-    if (form) {
-      result.form = form;
-    }
-
-    return result;
+    return flag.replace(/^\--|^\-|[a-z-]+/g, (match) => {
+      if (replace.hasOwnProperty(match)) {
+        return replace[match];
+      }
+      return match;
+    });
   }
 
   // TODO: Refactor?
