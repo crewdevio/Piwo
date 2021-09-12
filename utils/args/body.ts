@@ -6,7 +6,7 @@
  *
  */
 
-import { body as rgxBody, dontNeedToBeMutated, readBody } from "../../regex.ts";
+import { dontNeedToBeMutated, readBody, equal } from "./regex.ts";
 
 export default class Body {
   static parseToJSON(body: string[]) {
@@ -26,8 +26,6 @@ export default class Body {
 }
 
 function replace(s: string) {
-  const { equal } = rgxBody;
-
   return s.replace(readBody, (match) => {
     if (dontNeedToBeMutated.test(match)) return match;
     if (equal.test(match)) return `: `;
