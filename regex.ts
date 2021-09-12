@@ -38,14 +38,12 @@ const {
 } = json;
 const { equal: sEqual } = symbol;
 
-const bodyString = {
+export const bodyString = {
   withoutQuotes: /[^\{\}\[\]\s"=]+/,
   withQuotes: /"[^\{\}\[\]=]+"/,
 };
 
-const getString = new RegExp(
-  `${bodyString.withQuotes.source}|${bodyString.withoutQuotes.source}`,
-);
+const getString = /[^=\{\}\[\]]+/;
 
 export const body = {
   getEqual: new RegExp(
@@ -53,15 +51,14 @@ export const body = {
   ),
   getString,
   equal: new RegExp(`^${symbol.equal.source}$`),
-  getSpacebar: /\s/,
   getNumber: jNumber,
   getBoolNull: new RegExp(`${jBool.source}|${jNull.source}`),
 };
 
-const { getEqual, getSpacebar, getNumber, getBoolNull } = body;
+const { getEqual, getNumber, getBoolNull } = body;
 
 export const readBody = new RegExp(
-  `${getString.source}|${getEqual.source}|${getSpacebar.source}`,
+  `${getString.source}|${getEqual.source}`,
   "g",
 );
 
