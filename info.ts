@@ -7,4 +7,4 @@
  */
 
 export const name = "Piwo";
-export const version = "v0.4.1";
+export const version = "v0.4.2";
