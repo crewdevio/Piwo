@@ -6,11 +6,7 @@
  *
  */
 
-import type { Args } from "../../types.ts";
-import { yellow } from "../color/colors.ts";
-import { errorFlag as error, warnFlag as warn } from "../output/fail.ts";
-
-class Flags {
+export default class Flags {
   static parse(flag: string) {
     const replace: Record<string, string> = {
       "--": "",
@@ -27,35 +23,4 @@ class Flags {
       return match;
     });
   }
-
-  // TODO: Refactor?
-  static validate(args: Required<Args>) {
-    const { flags } = args;
-
-    if (!flags) return false;
-
-    if (flags.version && (args.method || args.url || args.body)) {
-      warn("--version");
-    }
-
-    if (flags.form && (!args.method || !args.url || !args.body)) {
-      let miss = "";
-      if (args.method !== "POST") {
-        miss += `${yellow("[POST]")}`;
-      }
-      if (!args.url) {
-        miss += addComma(miss) + `${yellow("[URL]")}`;
-      }
-      if (!args.body) {
-        miss += addComma(miss) + `${yellow("[BODY]")}`;
-      }
-
-      error("--form", miss);
-    }
-    return true;
-  }
 }
-
-const addComma = <T extends boolean | string>(add: T) => add ? ", " : "";
-
-export default Flags;

@@ -7,15 +7,13 @@
  */
 
 import type { Args, Method } from "../../types.ts";
-import { isEmpty, isFormDataEmpty } from "../object/isEmpty.ts";
-import { error, warn } from "../output/fail.ts";
 import { args } from "../../regex.ts";
 import Flags from "./flags.ts";
 import Body from "./body.ts";
 
 const { flag, method, url } = args;
 
-function parse(args: string[]) {
+export default function parse(args: string[]) {
   if (!args.length) return;
 
   const obj: Args = {};
@@ -46,36 +44,3 @@ function parse(args: string[]) {
 
   return obj as Required<Args>;
 }
-
-// TODO: Make this code more readable
-function validate(args: Required<Args>) {
-  const { method, url, flags } = args;
-  let { body } = args;
-
-  const pass = Flags.validate(args);
-  if (!pass || flags.version) return;
-
-  if (!method) {
-    error("[METHOD]");
-    Deno.exit();
-  }
-  if (!url) {
-    error("[URL]");
-    Deno.exit();
-  }
-  if (method !== "GET" && method !== "DELETE") {
-    if (flags?.form) {
-      if (isFormDataEmpty(body as FormData)) {
-        warn("[BODY]");
-        body = "";
-      }
-    } else {
-      if (isEmpty(body as Record<string, unknown>)) {
-        warn("[BODY]");
-        body = "";
-      }
-    }
-  }
-}
-
-export default parse;
