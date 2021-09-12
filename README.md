@@ -48,10 +48,9 @@ piwo [METHOD] [URL] [BODY]
 `METHOD`: must be uppercase and they can be `GET`, `POST`, `PUT`, `PATCH` and
 `DELETE`. If you don't send a method Piwo will make a `GET` (default) request.
 
-`URL`: you can omit the protocol (http or https), Piwo will first make a request
-to https, if the response fails then will make a request with the http protocol.
+`URL`: you can omit the protocol in the url (http or https).
 
-`BODY`: The body that you will send is a JSON.
+`BODY`: the body is JSON (default).
 
 ### Make a GET request
 
@@ -114,7 +113,7 @@ piwo --form POST localhost:3000/ search_query="foo bar"
 ### How URL argument works
 
 When you're doing a request you can omit the protocol, Piwo will make a request
-with https, if get not response then will try with http protocol and then will
+with https, if get not response then will try with the http protocol and then will
 output the response of the server or a msg that couldn't connect when no server
 is found.
 
@@ -124,4 +123,4 @@ If you're sure that the server is on http protocol, we recommend you to pass the
 protocol in the url, is faster because piwo will do a direct request with the
 procotol and will not check the https procotol.
 
-If the url is a localhost, then will only use HTTP.
+If the url is a localhost, then will first try with HTTP.
