@@ -1,45 +1,8 @@
 import { Merlin } from "merlin";
 import parse from "../utils/args/parser.ts";
-import type { Args } from "../types.ts";
+import type { ArgResult } from "./types.ts";
 
 const test = new Merlin();
-
-type ArgResult = void | Args;
-type FlagResult = { short: ArgResult; complete: ArgResult };
-
-//#region basic flags
-
-test.assertEqual("version flag", {
-  expect() {
-    const short = parse(["-v"]);
-    const complete = parse(["--version"]);
-    return { short, complete };
-  },
-  toBe(): FlagResult {
-    const result: ArgResult = { flags: { version: true } };
-    return {
-      short: result,
-      complete: result,
-    };
-  },
-});
-
-test.assertEqual("help flag", {
-  expect() {
-    const short = parse(["-h"]);
-    const complete = parse(["--help"]);
-    return { short, complete };
-  },
-  toBe(): FlagResult {
-    const result: ArgResult = { flags: { help: true } };
-    return {
-      short: result,
-      complete: result,
-    };
-  },
-});
-
-//#endregion
 
 test.assertEqual("GET: api.github.com", {
   expect() {
@@ -65,17 +28,17 @@ test.assertEqual("GET (explicit): api.github.com", {
   },
 });
 
-test.assertEqual("complex url", {
+test.assertEqual("GET: complex url", {
   expect() {
-    return parse(["localhost:8080/[pgk]/?id=20"])
+    return parse(["localhost:8080/[pgk]/?id=20"]);
   },
   toBe(): ArgResult {
     return {
       url: "localhost:8080/[pgk]/?id=20",
       method: "GET",
-    }
-  }
-})
+    };
+  },
+});
 
 test.assertEqual("POST: send a email", {
   expect() {
@@ -208,55 +171,12 @@ test.assertEqual("PATCH: with object and array", {
 
 test.assertEqual("DELETE", {
   expect() {
-    return parse(["DELETE","localhost:8080"]);
+    return parse(["DELETE", "localhost:8080"]);
   },
   toBe(): ArgResult {
     return {
       method: "DELETE",
       url: "localhost:8080",
-    };
-  },
-});
-
-test.assertEqual("POST a formData with -f flag", {
-  expect() {
-    const args = [
-      "-f",
-      "POST",
-      "localhost:8080",
-      "person={name=Deno Merlin",
-      "age=24",
-      "hobbies=[test",
-      "movies]}",
-    ];
-    const short = parse(args);
-    args[0] = "--form";
-    const complete = parse(args);
-
-    return { short, complete };
-  },
-  toBe(): FlagResult {
-    const formData = new FormData();
-    formData.append(
-      "person",
-      JSON.parse(`{
-        "name": "Deno Merlin",
-        "age": 24,
-        "hobbies": ["test", "movies"]
-      }`),
-    );
-
-    const result: ArgResult = {
-      method: "POST",
-      url: "localhost:8080",
-      flags: { form: true },
-      headers: undefined,
-      body: formData,
-    };
-
-    return {
-      short: result,
-      complete: result,
     };
   },
 });
