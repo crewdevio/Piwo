@@ -9,7 +9,7 @@
 import type { Args, Output } from "../types.ts";
 import { HandleResponseData } from "./validate.ts";
 
-async function customFetch(config: Required<Args>): Promise<Output> {
+export async function customFetch(config: Required<Args>): Promise<Output> {
   const { method, body, flags, headers, url: URL } = config;
   const form = flags?.form;
   const hasProtocol = URL.includes("http");
@@ -92,4 +92,15 @@ function parseHeaders(headers: Headers) {
   return outputHeaders;
 }
 
-export default customFetch;
+export async function runFetch(url: string, init: Request): Promise<Output> {
+  const response = await fetch(url, init);
+  const data = await HandleResponseData<Record<string, unknown>>(response);
+
+  return {
+    ok: response.ok,
+    protocol: response.url.includes("https") ? "HTTPS" : "HTTP",
+    status: response.status,
+    headers: parseHeaders(response.headers),
+    body: data,
+  };
+}
