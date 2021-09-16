@@ -1,7 +1,7 @@
 {
   "scripts": {
     "dev": "deno run -A --unstable --import-map=./import_map.json ./cli.ts",
-    "piwo": "deno run --allow-net --no-check --import-map=./import_map.json ./cli.ts",
+    "piwo": "deno run --allow-net --allow-read --no-check --import-map=./import_map.json ./cli.ts",
     "test": "deno test --allow-read --import-map=./import_map.json"
   }
 }
