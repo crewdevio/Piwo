@@ -14,8 +14,8 @@ export async function readJson(filePath: string): Promise<unknown> {
   }
 }
 
-export async function getRequest(alias: string): Promise<Request> {
-  const json = await readJson("./request.json") as runJson;
+export async function getRequest(alias: string, filePath: string) {
+  const json = await readJson(filePath) as runJson;
   const request = json[alias];
   if (!request) {
     console.error(
@@ -24,6 +24,12 @@ export async function getRequest(alias: string): Promise<Request> {
       }`,
     );
     Deno.exit();
+  }
+
+  if (request.body) {
+    Object.defineProperty(request, "body", {
+      value: JSON.stringify(request.body),
+    });
   }
 
   return request;

@@ -13,6 +13,7 @@ import output from "./utils/output/output.ts";
 import { customFetch, runFetch } from "./utils/customFetch.ts";
 import { validateArgs } from "./utils/args/validate.ts";
 import { getRequest } from "./utils/readJson.ts";
+import { filePath } from "./info.ts";
 
 const denoArgs = Deno.args;
 const args = parse(denoArgs);
@@ -30,7 +31,8 @@ if (args) {
 
   if (command) {
     const alias = command.split(" ")[1];
-    const request = await getRequest(alias);
+    const request = await getRequest(alias, filePath);
+
     output(await runFetch(request.url, request));
   } else if (flags?.help) {
     console.log(helpCommand);
