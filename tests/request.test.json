@@ -1,0 +1,17 @@
+{
+	"github": {
+		"method": "GET",
+		"url": "https://api.github.com"
+	},
+	"new-task": {
+		"method": "POST",
+		"url": "http://localhost:8080/task/",
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"body": {
+			"name": "read json file",
+			"description": "make piwo read a json file for doing request running a simple script"
+		}
+	}
+}
