@@ -23,4 +23,9 @@ export interface Args {
   flags?: Record<string, true>;
   body?: string | FormData | Record<string, unknown>;
   headers?: Record<string, string>;
+  command?: string;
+}
+
+export interface runJson {
+  [key:string]: Request;
 }

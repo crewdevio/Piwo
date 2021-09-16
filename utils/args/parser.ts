@@ -19,6 +19,11 @@ export default function parse(args: string[]) {
   const obj: Args = {};
   const body: string[] = [];
 
+  if (args.join(" ").startsWith("run")) {
+    obj.command = args.join(" ");
+    return obj as Required<Args>;
+  }
+
   args.forEach((arg) => {
     if (arg.match(method)) {
       obj.method = arg as Method;

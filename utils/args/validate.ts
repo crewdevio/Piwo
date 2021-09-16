@@ -8,10 +8,17 @@ interface Invalid {
 }
 
 export function validateArgs(args: Required<Args>): Invalid | false {
-  const { method, flags, url } = args;
+  const { method, flags, url, command } = args;
 
   const miss = missData(args);
 
+  if (command.startsWith("run") && command.split(" ").length > 2) {
+    return {
+      msg: `the command ${purple("run")} expect only a command from ${yellow("request.json")}`,
+      exit: true,
+      type: red("error")
+    }
+  }
   if (flags?.form && (!url || !method)) {
     return {
       msg: `the flag ${purple("form")} needs the following arguments: ${miss}`,
