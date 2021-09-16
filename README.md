@@ -12,17 +12,18 @@ request body as JSON.
 ## Installation
 
 ```console
-deno install --allow-net --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
+deno install --allow-net --allow-read --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
 ```
 
 The permissions that Piwo uses are:
 
 - --allow-net
+- --allow-read
 
 ## Updating Piwo
 
 ```console
-deno install -f -r --allow-net --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
+deno install -f -r --allow-net --allow-read --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
 ```
 
 Check if Piwo has been updated
@@ -106,6 +107,49 @@ You just need to add the --form flag
 
 ```console
 piwo --form POST localhost:3000/ search_query="foo bar"
+```
+
+## Run command usage
+
+Create a `request.json` file in your project.
+The keys that piwo are expecting from the file are names or aliases that can be called in the console, and this aliases should have as value a init similar to the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#headers) considering that it is not possible to execute javascript code in a json file
+
+#### Example
+
+```json
+{
+	"github": {
+		"method": "GET",
+		"url": "https://api.github.com"
+	}
+}
+```
+
+Run the next code in your command-line:
+
+```console
+piwo run github
+```
+
+### Send a JSON
+
+```json
+{
+	"new-task": {
+		"method": "POST",
+		"url": "http://localhost:8080/task/",
+		"headers": {
+			"Content-Type": "application/json"
+		},
+		"body": {
+			"name": "read a json file",
+			"description": "piwo should read a json file to simplify a request"
+		}
+	}
+}
+```
+```console
+piwo run new-task
 ```
 
 ## Some nice tips
