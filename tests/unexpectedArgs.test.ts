@@ -5,24 +5,6 @@ import type { Args } from "../types.ts";
 
 const test = new Merlin();
 
-test.assertEqual("version", {
-  expect() {
-    const obj: Args = {
-      flags: { version: true },
-      url: "ajio.com",
-      method: "GET",
-    };
-    return validateArgs(obj as Required<Args>);
-  },
-  toBe() {
-    return {
-      msg: `the flag ${purple("version")} doesn't need arguments`,
-      exit: false,
-      type: `${yellow("warn")}`,
-    };
-  },
-});
-
 test.assertEqual("form", {
   expect() {
     const obj: Args = { flags: { form: true } };
