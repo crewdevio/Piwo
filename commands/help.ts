@@ -7,14 +7,14 @@
  */
 
 import { purple, yellow } from "../utils/color/colors.ts";
-import { name } from "../info.ts";
+import { name, filePath } from "../info.ts";
 
 const cliName = name.toLowerCase();
 
 export default `${purple("USAGE:")}
-  ${cliName} ${yellow("[OPTIONS] [METHOD] [URL] [BODY]")}
+  ${cliName} ${yellow("[OPTION] [METHOD] [URL] [BODY]")}
 
-${purple("OPTIONS:")}
+${purple("OPTION:")}
   ${yellow("--help, -h")}      show help info
   ${yellow("--version, -v")}   show version
   ${yellow("--form, -f")}      send a body as form
@@ -27,10 +27,13 @@ ${purple("METHOD:")}
   ${yellow("DELETE")}
 
 ${purple("URL:")}
-  you can no specify the protocol.
+  you can no specify the protocol
 
 ${purple("BODY:")}
   send a body as JSON (default)
+
+${purple("RUN COMMAND:")}
+  ${yellow("run")} a request defined in a ${filePath} file
 
 ${purple("EXAMPLE:")}
   ${cliName} api.github.com`;
