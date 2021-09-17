@@ -60,3 +60,31 @@ test.assertEqual("run POST: send form", {
     return { noHeaders, form, multipartForm };
   },
 });
+
+test.assertEqual("run POST: send text", {
+  async expect() {
+    return await getRequest("foo:text", filePath)
+  },
+  toBe() {
+    return {
+      method: "POST",
+      url: "http://localhost:8080/",
+      headers: { "Content-Type": "text/plain" },
+      body: "bar"
+    };
+  }
+});
+
+test.assertEqual("run POST: send html", {
+  async expect() {
+    return await getRequest("foo:html", filePath);
+  },
+  toBe() {
+    return {
+      method: "POST",
+      url: "http://localhost:8080/",
+      headers: { "Content-Type": "text/html" },
+      body: "bar",
+    };
+  },
+});

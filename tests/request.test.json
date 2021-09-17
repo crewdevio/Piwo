@@ -40,5 +40,21 @@
 		"body": {
 			"foo": "bar"
 		}
+	},
+	"foo:text": {
+		"method": "POST",
+		"url": "http://localhost:8080/",
+		"headers": {
+			"Content-Type": "text/plain"
+		},
+		"body": "bar"
+	},
+	"foo:html": {
+		"method": "POST",
+		"url": "http://localhost:8080/",
+		"headers": {
+			"Content-Type": "text/html"
+		},
+		"body": "bar"
 	}
 }
