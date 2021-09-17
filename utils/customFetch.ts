@@ -68,7 +68,7 @@ export async function customFetch(config: Required<Args>): Promise<Output> {
 
   return {
     ok: response.ok,
-    protocol: response.url.includes("https") ? "HTTPS" : "HTTP",
+    protocol: getProtocol(response.url),
     status: response.status,
     headers: parseHeaders(response.headers),
     body: !form ? data : "",
@@ -98,9 +98,11 @@ export async function runFetch(url: string, init: Request): Promise<Output> {
 
   return {
     ok: response.ok,
-    protocol: response.url.includes("https") ? "HTTPS" : "HTTP",
+    protocol: getProtocol(response.url),
     status: response.status,
     headers: parseHeaders(response.headers),
     body: data,
   };
 }
+
+const getProtocol = (url: string) => url.startsWith("https") ? "HTTPS" : "HTTP";
