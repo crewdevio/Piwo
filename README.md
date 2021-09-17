@@ -112,7 +112,7 @@ piwo --form POST localhost:3000/ search_query="foo bar"
 ## Run command usage
 
 Create a `request.json` file in your project.
-The keys that piwo are expecting from the file are names or aliases that can be called in the console, and this aliases should have as value a init similar to the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#headers) considering that it is not possible to execute javascript code in a json file
+The keys that piwo are expecting from the file are names or aliases that can be called in the console, and this aliases should have as value a config similar to the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#headers) considering that it is not possible to execute javascript code in a json file
 
 #### Example
 
@@ -151,6 +151,26 @@ piwo run github
 ```console
 piwo run new-task
 ```
+
+### Send a Form
+
+```json
+	"foo:form": {
+		"method": "POST",
+		"url": "http://localhost:8080/",
+		"headers": {
+			"Content-Type": "application/x-www-form-urlencoded"
+		},
+		"body": {
+			"foo": "bar"
+		}
+	}
+```
+```console
+piwo run foo:form
+```
+
+`Content-Type` value can be `multipart/form-data`;
 
 ## Some nice tips
 
