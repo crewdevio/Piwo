@@ -1,7 +1,7 @@
 import { red, yellow } from "./color/colors.ts";
-import { runJson } from "../types.ts";
+import { formData } from "./formData.ts";
 
-export async function readJson(filePath: string): Promise<unknown> {
+export async function readJson(filePath: string) {
   const decoder = new TextDecoder("utf-8");
 
   const content = decoder.decode(await Deno.readFile(filePath));
@@ -15,7 +15,7 @@ export async function readJson(filePath: string): Promise<unknown> {
 }
 
 export async function getRequest(alias: string, filePath: string) {
-  const json = await readJson(filePath) as runJson;
+  const json = await readJson(filePath);
   const request = json[alias];
   if (!request) {
     console.error(
@@ -27,9 +27,15 @@ export async function getRequest(alias: string, filePath: string) {
   }
 
   if (request.body) {
-    Object.defineProperty(request, "body", {
-      value: JSON.stringify(request.body),
-    });
+    const { headers, body } = request;
+    const contentType = headers?.["Content-Type"] || headers?.["content-type"];
+    const formRegex = /application\/x-www-form-urlencoded|multipart\/form-data/;
+
+    if (contentType?.match("application/json")) {
+      request.body = JSON.stringify(body);
+    } else if (contentType?.match(formRegex) || !contentType) {
+      request.body = formData(body);
+    }
   }
 
   return request;

@@ -6,8 +6,9 @@
  *
  */
 
-import { dontNeedToBeMutated, readBody, equal } from "./regex.ts";
+import { dontNeedToBeMutated, equal, readBody } from "./regex.ts";
 import { red } from "../color/colors.ts";
+import { formData } from "../formData.ts";
 
 export default class Body {
   static parseToJSON(body: string[]) {
@@ -22,12 +23,8 @@ export default class Body {
   }
 
   static parseToFormData(body: string[]) {
-    const fd = new FormData();
     const json = this.parseToJSON(body);
-
-    Object.keys(json).map((key: string) => fd.append(key, json[key]));
-
-    return fd;
+    return formData(json);
   }
 }
 
