@@ -25,7 +25,3 @@ export interface Args {
   headers?: Record<string, string>;
   command?: string;
 }
-
-export interface runJson {
-  [key:string]: Request;
-}
