@@ -27,6 +27,36 @@ test.assertEqual("run POST: json body to localhost", {
         description:
           "make piwo read a json file for doing request running a simple script",
       }),
-    } as unknown as Request;
+    };
+  },
+});
+
+test.assertEqual("run POST: send form", {
+  async expect() {
+    return {
+      noHeaders: await getRequest("foo:undefined", filePath),
+      form: await getRequest("foo:form", filePath),
+      multipartForm: await getRequest("foo:multipart-form", filePath),
+    };
+  },
+  toBe() {
+    const body = new FormData();
+    body.append("foo", "bar");
+
+    const noHeaders = {
+      method: "POST",
+      url: "http://localhost:8080/",
+      body,
+    };
+
+    const form = Object.assign({
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    }, noHeaders);
+
+    const multipartForm = Object.assign({
+      headers: { "Content-Type": "multipart/form-data" },
+    }, noHeaders);
+
+    return { noHeaders, form, multipartForm };
   },
 });
