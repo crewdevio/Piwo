@@ -7,5 +7,5 @@
  */
 
 export const name = "Piwo";
-export const version = "v0.5.0";
+export const version = "v0.5.2";
 export const filePath = "./request.json";
