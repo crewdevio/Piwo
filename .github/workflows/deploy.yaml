@@ -20,4 +20,4 @@ jobs:
         with:
           deno-version: v1.x
       - name: Test
-      - run: deno test -A --unstable --import-map=../import_map.json
+        run: deno test -A --unstable --import-map=../import_map.json
