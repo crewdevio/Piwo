@@ -155,6 +155,7 @@ piwo run new-task
 ### Send a Form
 
 ```json
+{
 	"foo:form": {
 		"method": "POST",
 		"url": "http://localhost:8080/",
@@ -165,6 +166,7 @@ piwo run new-task
 			"foo": "bar"
 		}
 	}
+}
 ```
 ```console
 piwo run foo:form
