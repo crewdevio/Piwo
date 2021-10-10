@@ -111,17 +111,20 @@ piwo --form POST localhost:3000/ search_query="foo bar"
 
 ## Run command usage
 
-Create a `request.json` file in your project.
-The keys that piwo are expecting from the file are names or aliases that can be called in the console, and this aliases should have as value a config similar to the [fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#headers) considering that it is not possible to execute javascript code in a json file
+Create a `request.json` file in your project. The keys that piwo are expecting
+from the file are names or aliases that can be called in the console, and this
+aliases should have as value a config similar to the
+[fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch#headers)
+considering that it is not possible to execute javascript code in a json file
 
 #### Example
 
 ```json
 {
-	"github": {
-		"method": "GET",
-		"url": "https://api.github.com"
-	}
+  "github": {
+    "method": "GET",
+    "url": "https://api.github.com"
+  }
 }
 ```
 
@@ -135,19 +138,20 @@ piwo run github
 
 ```json
 {
-	"new-task": {
-		"method": "POST",
-		"url": "http://localhost:8080/task/",
-		"headers": {
-			"Content-Type": "application/json"
-		},
-		"body": {
-			"name": "read a json file",
-			"description": "piwo should read a json file to simplify a request"
-		}
-	}
+  "new-task": {
+    "method": "POST",
+    "url": "http://localhost:8080/task/",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "read a json file",
+      "description": "piwo should read a json file to simplify a request"
+    }
+  }
 }
 ```
+
 ```console
 piwo run new-task
 ```
@@ -156,18 +160,19 @@ piwo run new-task
 
 ```json
 {
-	"foo:form": {
-		"method": "POST",
-		"url": "http://localhost:8080/",
-		"headers": {
-			"Content-Type": "application/x-www-form-urlencoded"
-		},
-		"body": {
-			"foo": "bar"
-		}
-	}
+  "foo:form": {
+    "method": "POST",
+    "url": "http://localhost:8080/",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "body": {
+      "foo": "bar"
+    }
+  }
 }
 ```
+
 ```console
 piwo run foo:form
 ```
@@ -179,9 +184,9 @@ piwo run foo:form
 ### How URL argument works
 
 When you're doing a request you can omit the protocol, Piwo will make a request
-with https, if get not response then will try with the http protocol and then will
-output the response of the server or a msg that couldn't connect when no server
-is found.
+with https, if get not response then will try with the http protocol and then
+will output the response of the server or a msg that couldn't connect when no
+server is found.
 
 When you send the URL with protocol Piwo will not check the other protocol.
 
