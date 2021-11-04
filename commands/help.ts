@@ -6,7 +6,7 @@
  */
 
 import { purple, yellow } from "../utils/color/colors.ts";
-import { filePath, name } from "../info.ts";
+import { runCommandFilePath, name } from "../info.ts";
 
 const cliName = name.toLowerCase();
 
@@ -32,7 +32,7 @@ ${purple("BODY:")}
   send a body as JSON (default)
 
 ${purple("RUN COMMAND:")}
-  ${yellow("run")} a request defined in a ${filePath} file
+  ${yellow("run")} a request defined in a ${runCommandFilePath} file
 
 ${purple("EXAMPLE:")}
   ${cliName} api.github.com`;

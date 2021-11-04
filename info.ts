@@ -7,4 +7,4 @@
 
 export const name = "Piwo";
 export const version = "v0.5.2";
-export const filePath = "./request.json";
+export const runCommandFilePath = "./request.json";
