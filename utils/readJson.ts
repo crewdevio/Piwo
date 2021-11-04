@@ -2,7 +2,7 @@ import { red, yellow } from "./color/colors.ts";
 import { formData } from "./formData.ts";
 import { exists } from "fs/mod.ts";
 
-export async function readJson(filePath: string) {
+async function readJsonFile(filePath: string) {
   if (!await exists(filePath)) {
     console.error(`${red("error")}: ${yellow(filePath)} not found`);
     Deno.exit();
@@ -20,7 +20,7 @@ export async function readJson(filePath: string) {
 }
 
 export async function getRequest(alias: string, filePath: string) {
-  const json = await readJson(filePath);
+  const json = await readJsonFile(filePath);
   const request = json[alias];
   if (!request) {
     console.error(
