@@ -10,7 +10,8 @@ import { join } from "path/mod.ts";
 const { env, build } = Deno;
 
 export const name = "Piwo";
-export const version = "v0.5.2";
+export const version = "v0.6.0";
+
 export const runCommandFilePath = "./request.json";
 export const storagePath = build.os === "windows"
   ? join(
