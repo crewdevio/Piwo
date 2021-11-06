@@ -91,7 +91,12 @@ export async function fetchFromRequestFile(
   url: string,
   init: Request,
 ): Promise<Output> {
+  const cookie = await getCookie(url);
+  init.headers = { ...init.headers, cookie };
+
   const response = await fetch(url, init);
+  saveCookie(response.headers, url);
+
   const data = await HandleResponseData<Record<string, unknown>>(response);
 
   return {
