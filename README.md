@@ -19,6 +19,8 @@ The permissions that Piwo uses are:
 
 - --allow-net
 - --allow-read
+- --allow-write
+- --allow-env
 
 ## Updating Piwo
 
