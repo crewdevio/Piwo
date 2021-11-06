@@ -45,12 +45,9 @@ export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
     try {
       if (method === "GET") {
         if (cookie) {
-          const headers = new Headers();
-          headers.set("cookie", cookie);
-          console.log(headers);
           response = await fetch(URLCopy, {
             method,
-            headers,
+            headers: { cookie },
           });
         } else {
           response = await fetch(URLCopy);
