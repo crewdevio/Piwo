@@ -13,6 +13,12 @@ export const name = "Piwo";
 export const version = "v0.5.2";
 export const runCommandFilePath = "./request.json";
 export const storagePath = build.os === "windows"
-  ? join("C:", "Users", env.get("USERNAME")!, ".deno", name.toLowerCase() + "\\")
-  : join(env.get("HOME")!, ".deno", name.toLowerCase() + "/")
+  ? join(
+    "C:",
+    "Users",
+    env.get("USERNAME")!,
+    ".deno",
+    name.toLowerCase() + "\\",
+  )
+  : join(env.get("HOME")!, ".deno", name.toLowerCase() + "/");
 export const cookiePath = join(storagePath, "cookies");

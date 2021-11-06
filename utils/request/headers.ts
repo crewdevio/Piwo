@@ -14,4 +14,3 @@ export function parseHeaders(headers: Headers) {
 
   return outputHeaders;
 }
-

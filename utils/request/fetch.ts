@@ -9,7 +9,7 @@ import type { Args, Output } from "../../types.ts";
 import { HandleResponseData } from "../validate.ts";
 import { parseHeaders } from "./headers.ts";
 import { getProtocol } from "./protocol.ts";
-import { saveCookie, getCookie } from "./cookies.ts";
+import { getCookie, saveCookie } from "./cookies.ts";
 
 export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
   const { method, body, flags, headers, url: URL } = config;
@@ -26,8 +26,7 @@ export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
   const cookie = await getCookie(URLCopy);
 
   while (!response) {
-    const tryWithHTTP =
-      !hasProtocol &&
+    const tryWithHTTP = !hasProtocol &&
       !testedProtocols.HTTP &&
       (testedProtocols.HTTPS || !testedLocalhostWithHTTP);
     let tryWithHTTPS = !hasProtocol && !testedProtocols.HTTPS;
@@ -48,10 +47,10 @@ export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
         if (cookie) {
           const headers = new Headers();
           headers.set("cookie", cookie);
-          console.log(headers)
+          console.log(headers);
           response = await fetch(URLCopy, {
             method,
-            headers
+            headers,
           });
         } else {
           response = await fetch(URLCopy);
@@ -93,7 +92,7 @@ export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
 
 export async function fetchFromRequestFile(
   url: string,
-  init: Request
+  init: Request,
 ): Promise<Output> {
   const response = await fetch(url, init);
   const data = await HandleResponseData<Record<string, unknown>>(response);

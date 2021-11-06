@@ -6,7 +6,7 @@
  */
 
 import { purple, yellow } from "../utils/color/colors.ts";
-import { runCommandFilePath, name } from "../info.ts";
+import { name, runCommandFilePath } from "../info.ts";
 
 const cliName = name.toLowerCase();
 

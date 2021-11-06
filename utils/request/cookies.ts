@@ -1,13 +1,13 @@
 import { join } from "path/mod.ts";
 import * as fs from "fs/mod.ts";
-import { storagePath, cookiePath } from "../../info.ts";
+import { cookiePath, storagePath } from "../../info.ts";
 
 const { exists } = fs;
 const { mkdir, writeFile, readFile } = Deno;
 
 export function saveCookie(headers: Headers, url: string) {
   [storagePath, cookiePath].forEach(
-    async (dir) => !(await exists(dir)) && (await mkdir(dir))
+    async (dir) => !(await exists(dir)) && (await mkdir(dir)),
   );
 
   const filePath = join(cookiePath, getURL(url));
@@ -36,8 +36,8 @@ function getURL(url: string) {
   const match = url.match(/[A-z0-9:.]+/g);
   const len = match?.length;
   return len === 1
-    ? match?.[0]?.startsWith("www.")
-      ? match?.slice(4)
-      : match?.[0]
-    : match?.[0].startsWith("http") ? match?.[1] : match?.[0];
+    ? match?.[0]?.startsWith("www.") ? match?.slice(4) : match?.[0]
+    : match?.[0].startsWith("http")
+    ? match?.[1]
+    : match?.[0];
 }
