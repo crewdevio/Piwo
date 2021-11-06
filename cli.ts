@@ -9,7 +9,7 @@ import helpCommand from "./commands/help.ts";
 import versionCommand from "./commands/version.ts";
 import parse from "./utils/args/parser.ts";
 import output from "./utils/output/output.ts";
-import { customFetch, runFetch } from "./utils/customFetch.ts";
+import { fetchFromArgs, fetchFromRequestFile } from "./utils/request/fetch.ts";
 import { validateArgs } from "./utils/args/validate.ts";
 import { getRequest } from "./utils/readJson.ts";
 import { runCommandFilePath } from "./info.ts";
@@ -32,13 +32,13 @@ if (args) {
     const alias = command.split(" ")[1];
     const request = await getRequest(alias, runCommandFilePath);
 
-    output(await runFetch(request.url, request));
+    output(await fetchFromRequestFile(request.url, request));
   } else if (flags?.help) {
     console.log(helpCommand);
   } else if (flags?.version) {
     console.log(versionCommand);
   } else {
-    output(await customFetch(args));
+    output(await fetchFromArgs(args));
   }
 } else console.log(helpCommand);
 

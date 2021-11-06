@@ -5,10 +5,13 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { Args, Output } from "../types.ts";
-import { HandleResponseData } from "./validate.ts";
+import type { Args, Output } from "../../types.ts";
+import { HandleResponseData } from "../validate.ts";
+import { parseHeaders } from "./headers.ts";
+import { getProtocol } from "./protocol.ts";
+import { saveCookie, getCookie } from "./cookies.ts";
 
-export async function customFetch(config: Required<Args>): Promise<Output> {
+export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
   const { method, body, flags, headers, url: URL } = config;
   const form = flags?.form;
   const hasProtocol = URL.includes("http");
@@ -20,13 +23,15 @@ export async function customFetch(config: Required<Args>): Promise<Output> {
   let testedLocalhostWithHTTP = false;
   let response: Response = null!;
   let URLCopy = URL;
+  const cookie = await getCookie(URLCopy);
 
   while (!response) {
-    const tryWithHTTP = !hasProtocol && !testedProtocols.HTTP &&
+    const tryWithHTTP =
+      !hasProtocol &&
+      !testedProtocols.HTTP &&
       (testedProtocols.HTTPS || !testedLocalhostWithHTTP);
     let tryWithHTTPS = !hasProtocol && !testedProtocols.HTTPS;
-    tryWithHTTPS = tryWithHTTPS ||
-      (tryWithHTTPS && testedLocalhostWithHTTP);
+    tryWithHTTPS = tryWithHTTPS || (tryWithHTTPS && testedLocalhostWithHTTP);
 
     if (tryWithHTTPS) {
       URLCopy = "https://" + URL;
@@ -40,12 +45,22 @@ export async function customFetch(config: Required<Args>): Promise<Output> {
 
     try {
       if (method === "GET") {
-        response = await fetch(URLCopy);
+        if (cookie) {
+          const headers = new Headers();
+          headers.set("cookie", cookie);
+          console.log(headers)
+          response = await fetch(URLCopy, {
+            method,
+            headers
+          });
+        } else {
+          response = await fetch(URLCopy);
+        }
       } else {
         response = await fetch(URLCopy, {
           method,
-          headers,
-          body: !form ? JSON.stringify(body as BodyInit) : body as FormData,
+          headers: cookie ? { ...headers, cookie } : headers,
+          body: !form ? JSON.stringify(body as BodyInit) : (body as FormData),
         });
       }
     } catch {
@@ -65,6 +80,8 @@ export async function customFetch(config: Required<Args>): Promise<Output> {
 
   const data = await HandleResponseData<Record<string, unknown>>(response);
 
+  saveCookie(response.headers, URLCopy);
+
   return {
     ok: response.ok,
     protocol: getProtocol(response.url),
@@ -74,24 +91,10 @@ export async function customFetch(config: Required<Args>): Promise<Output> {
   };
 }
 
-function parseHeaders(headers: Headers) {
-  const outputHeaders: Record<string, string> = {};
-
-  for (const [key, value] of headers) {
-    const allowedHeaders =
-      /^content-type$|access-control-allow-origin|^server$|^date$|^content-length$|^connection$/;
-
-    if (!allowedHeaders.test(key)) continue;
-    outputHeaders[key] =
-      key === "content-type" && value.includes("application/json")
-        ? "application/json"
-        : value;
-  }
-
-  return outputHeaders;
-}
-
-export async function runFetch(url: string, init: Request): Promise<Output> {
+export async function fetchFromRequestFile(
+  url: string,
+  init: Request
+): Promise<Output> {
   const response = await fetch(url, init);
   const data = await HandleResponseData<Record<string, unknown>>(response);
 
@@ -103,5 +106,3 @@ export async function runFetch(url: string, init: Request): Promise<Output> {
     body: data,
   };
 }
-
-const getProtocol = (url: string) => url.startsWith("https") ? "HTTPS" : "HTTP";
