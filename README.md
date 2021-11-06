@@ -12,7 +12,7 @@ request body as JSON.
 ## Installation
 
 ```console
-deno install --allow-net --allow-read --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
+deno install -A --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
 ```
 
 The permissions that Piwo uses are:
@@ -23,7 +23,7 @@ The permissions that Piwo uses are:
 ## Updating Piwo
 
 ```console
-deno install -f -r --allow-net --allow-read --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
+deno install -f -r -A --import-map=https://deno.land/x/piwo/import_map.json -n piwo --no-check https://deno.land/x/piwo/cli.ts
 ```
 
 Check if Piwo has been updated
