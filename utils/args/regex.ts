@@ -1,11 +1,10 @@
-
 import { args } from "../../regex.ts";
 
 const {
   null: bNull,
   bool,
   number,
-  text
+  text,
 } = args.body;
 
 export const equal = args.body.equal;

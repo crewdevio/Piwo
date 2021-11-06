@@ -23,7 +23,7 @@ test.assertEqual("form", {
 
 test.assertEqual("request", {
   expect() {
-    const obj: Args = { method: "POST" }
+    const obj: Args = { method: "POST" };
     return validateArgs(obj as Required<Args>);
   },
   toBe() {

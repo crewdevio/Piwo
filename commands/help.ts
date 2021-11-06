@@ -3,11 +3,10 @@
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- *
  */
 
 import { purple, yellow } from "../utils/color/colors.ts";
-import { name, filePath } from "../info.ts";
+import { name, runCommandFilePath } from "../info.ts";
 
 const cliName = name.toLowerCase();
 
@@ -33,7 +32,7 @@ ${purple("BODY:")}
   send a body as JSON (default)
 
 ${purple("RUN COMMAND:")}
-  ${yellow("run")} a request defined in a ${filePath} file
+  ${yellow("run")} a request defined in a ${runCommandFilePath} file
 
 ${purple("EXAMPLE:")}
   ${cliName} api.github.com`;

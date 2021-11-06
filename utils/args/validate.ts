@@ -14,10 +14,12 @@ export function validateArgs(args: Required<Args>): Invalid | false {
 
   if (command?.startsWith("run") && command?.split(" ").length > 2) {
     return {
-      msg: `the command ${purple("run")} expect only a command from ${yellow("request.json")}`,
+      msg: `the command ${purple("run")} expect only a command from ${
+        yellow("request.json")
+      }`,
       exit: true,
-      type: red("error")
-    }
+      type: red("error"),
+    };
   }
   if (flags?.form && (!url || !method)) {
     return {

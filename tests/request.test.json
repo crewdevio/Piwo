@@ -1,60 +1,60 @@
 {
-	"github": {
-		"method": "GET",
-		"url": "https://api.github.com"
-	},
-	"new-task": {
-		"method": "POST",
-		"url": "http://localhost:8080/task/",
-		"headers": {
-			"Content-Type": "application/json"
-		},
-		"body": {
-			"name": "read json file",
-			"description": "make piwo read a json file for doing request running a simple script"
-		}
-	},
-	"foo:undefined": {
-		"method": "POST",
-		"url": "http://localhost:8080/",
-		"body": {
-			"foo": "bar"
-		}
-	},
-	"foo:form": {
-		"method": "POST",
-		"url": "http://localhost:8080/",
-		"headers": {
-			"Content-Type": "application/x-www-form-urlencoded"
-		},
-		"body": {
-			"foo": "bar"
-		}
-	},
-	"foo:multipart-form": {
-		"method": "POST",
-		"url": "http://localhost:8080/",
-		"headers": {
-			"Content-Type": "multipart/form-data"
-		},
-		"body": {
-			"foo": "bar"
-		}
-	},
-	"foo:text": {
-		"method": "POST",
-		"url": "http://localhost:8080/",
-		"headers": {
-			"Content-Type": "text/plain"
-		},
-		"body": "bar"
-	},
-	"foo:html": {
-		"method": "POST",
-		"url": "http://localhost:8080/",
-		"headers": {
-			"Content-Type": "text/html"
-		},
-		"body": "bar"
-	}
+  "github": {
+    "method": "GET",
+    "url": "https://api.github.com"
+  },
+  "new-task": {
+    "method": "POST",
+    "url": "http://localhost:8080/task/",
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "body": {
+      "name": "read json file",
+      "description": "make piwo read a json file for doing request running a simple script"
+    }
+  },
+  "foo:undefined": {
+    "method": "POST",
+    "url": "http://localhost:8080/",
+    "body": {
+      "foo": "bar"
+    }
+  },
+  "foo:form": {
+    "method": "POST",
+    "url": "http://localhost:8080/",
+    "headers": {
+      "Content-Type": "application/x-www-form-urlencoded"
+    },
+    "body": {
+      "foo": "bar"
+    }
+  },
+  "foo:multipart-form": {
+    "method": "POST",
+    "url": "http://localhost:8080/",
+    "headers": {
+      "Content-Type": "multipart/form-data"
+    },
+    "body": {
+      "foo": "bar"
+    }
+  },
+  "foo:text": {
+    "method": "POST",
+    "url": "http://localhost:8080/",
+    "headers": {
+      "Content-Type": "text/plain"
+    },
+    "body": "bar"
+  },
+  "foo:html": {
+    "method": "POST",
+    "url": "http://localhost:8080/",
+    "headers": {
+      "Content-Type": "text/html"
+    },
+    "body": "bar"
+  }
 }

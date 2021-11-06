@@ -63,16 +63,16 @@ test.assertEqual("run POST: send form", {
 
 test.assertEqual("run POST: send text", {
   async expect() {
-    return await getRequest("foo:text", filePath)
+    return await getRequest("foo:text", filePath);
   },
   toBe() {
     return {
       method: "POST",
       url: "http://localhost:8080/",
       headers: { "Content-Type": "text/plain" },
-      body: "bar"
+      body: "bar",
     };
-  }
+  },
 });
 
 test.assertEqual("run POST: send html", {
