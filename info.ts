@@ -6,6 +6,6 @@
  */
 
 export const name = "Piwo";
-export const version = "v0.6.0";
+export const version = "v0.7.0";
 
 export const runCommandFilePath = "./request.json";
