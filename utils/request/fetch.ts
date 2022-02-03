@@ -97,8 +97,6 @@ export async function fetchFromRequestFile(
     init.headers.set("cookie", cookie);
   }
 
-  console.log(init);
-
   const response = await fetch(url, init);
   saveCookie(response.headers, url);
 
