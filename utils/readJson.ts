@@ -21,8 +21,8 @@ async function readJsonFile(filePath: string) {
 
 export async function getRequest(alias: string, filePath: string) {
   const json = await readJsonFile(filePath);
-  const request = json[alias];
-  if (!request) {
+  const data = json[alias];
+  if (!data) {
     console.error(
       `${red("error")}: ${yellow(alias)} alias not found in ${
         yellow("request.json")
@@ -31,17 +31,17 @@ export async function getRequest(alias: string, filePath: string) {
     Deno.exit();
   }
 
-  if (request.body) {
-    const { headers, body } = request;
+  if (data.body) {
+    const { headers, body } = data;
     const contentType = headers?.["Content-Type"] || headers?.["content-type"];
     const formRegex = /application\/x-www-form-urlencoded|multipart\/form-data/;
 
     if (contentType?.match("application/json")) {
-      request.body = JSON.stringify(body);
+      data.body = JSON.stringify(body);
     } else if (contentType?.match(formRegex) || !contentType) {
-      request.body = formData(body);
+      data.body = formData(body);
     }
   }
 
-  return request;
+  return new Request(data.url, data);
 }

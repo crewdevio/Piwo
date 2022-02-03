@@ -26,7 +26,8 @@ export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
   const cookie = await getCookie(URLCopy);
 
   while (!response) {
-    const tryWithHTTP = !hasProtocol &&
+    const tryWithHTTP =
+      !hasProtocol &&
       !testedProtocols.HTTP &&
       (testedProtocols.HTTPS || !testedLocalhostWithHTTP);
     let tryWithHTTPS = !hasProtocol && !testedProtocols.HTTPS;
@@ -89,10 +90,14 @@ export async function fetchFromArgs(config: Required<Args>): Promise<Output> {
 
 export async function fetchFromRequestFile(
   url: string,
-  init: Request,
+  init: Request
 ): Promise<Output> {
   const cookie = await getCookie(url);
-  init.headers = { ...init.headers, cookie };
+  if (cookie) {
+    init.headers.set("cookie", cookie);
+  }
+
+  console.log(init);
 
   const response = await fetch(url, init);
   saveCookie(response.headers, url);
