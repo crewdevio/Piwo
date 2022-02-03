@@ -11,9 +11,9 @@ export function getCookie(url: string) {
 
 function getHostname(url: string) {
   if (url.startsWith("www.")) {
-    url = `https://${url.slice(4)}`
+    url = `https://${url.slice(4)}`;
   } else if (!url.startsWith("http")) {
-    url = `https://${url}`
+    url = `https://${url}`;
   }
 
   const { hostname } = new URL(url);
