@@ -1,7 +1,7 @@
 {
   "imports": {
-    "fmt/": "https://deno.land/std@0.113.0/fmt/",
-    "fs/": "https://deno.land/std@0.113.0/fs/",
+    "fmt/": "https://deno.land/std@0.123.0/fmt/",
+    "fs/": "https://deno.land/std@0.123.0/fs/",
     "merlin": "https://deno.land/x/merlin@v1.0.6/mod.ts"
   }
 }
