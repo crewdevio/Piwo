@@ -13,10 +13,10 @@ export default class Flags {
       "h": "help",
       "v": "version",
       "f": "form",
-    };
+    } as const;
 
     return flag.replace(/^\--|^\-|[a-z-]+/g, (match) => {
-      if (replace.hasOwnProperty(match)) {
+      if (Object.hasOwn(replace, match)) {
         return replace[match];
       }
       return match;

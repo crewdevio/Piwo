@@ -5,46 +5,90 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { Args, Method } from "../../types.ts";
+import type { ArgsType, RequestArgs, Command, Flag, Method } from "../../types.ts";
 import { args } from "../../regex.ts";
 import Flags from "./flags.ts";
 import Body from "./body.ts";
 
-const { flag, method, url } = args;
+const { flags, method, url } = args;
 
-export default function parse(args: string[]) {
+export default function parse(args: string[]): ArgsType | void {
   if (!args.length) return;
 
-  const obj: Args = {};
+  const flag = parseToFlag(args);
+
+  if (flag) {
+    return {
+      data: flag,
+      type: "flag",
+    };
+  }
+
+  const command = parseToCommand(args);
+
+  if (command) {
+    return {
+      data: command,
+      type: "command",
+    };
+  }
+
+  const request = parseToRequestArgs(args);
+
+  if (request) {
+    return {
+      data: request,
+      type: "request",
+    };
+  }
+}
+
+function parseToCommand(args: string[]): Command | void {
+  if (args.at(0) === "run") {
+    if (args.length === 2) {
+      return {
+        command: "run",
+        body: args.at(1) as string,
+      };
+    }
+  }
+}
+
+function parseToFlag(args: string[]): Flag | void {
+  if (args.at(0)?.match(flags.noArgs)) {
+    return {
+      flags: {
+        [Flags.parse(args.at(0) as string)]: true,
+      },
+    };
+  }
+}
+
+function parseToRequestArgs(args: string[]): RequestArgs | void {
   const body: string[] = [];
 
-  if (args.join(" ").startsWith("run")) {
-    obj.command = args.join(" ");
-    return obj as Required<Args>;
-  }
+  const data: RequestArgs = {
+    method: "GET",
+    url: "",
+  };
 
   args.forEach((arg) => {
     if (arg.match(method)) {
-      obj.method = arg as Method;
-    } else if (arg.match(flag)) {
-      obj.flags ??= {};
-      obj.flags[Flags.parse(arg)] = true;
-    } else if (arg.match(url) && !obj.url) {
-      obj.url = arg;
+      data.method = arg as Method;
+    } else if (arg.match(flags.form)) {
+      data.flags = { form: true };
+    } else if (arg.match(url) && !data.url) {
+      data.url = arg;
     } else {
       body.push(arg);
     }
   });
 
   if (body.length) {
-    const form = obj.flags?.form;
-    obj.body = form ? Body.parseToFormData(body) : Body.parseToJSON(body);
-    obj.headers = !form ? { "Content-Type": "application/json" } : undefined;
+    const form = data.flags?.form;
+    data.body = form ? Body.parseToFormData(body) : Body.parseToJSON(body);
+    data.headers = !form ? { "content-type": "application/json" } : undefined;
   }
 
-  if (obj.url) {
-    obj.method ??= "GET";
-  }
-
-  return obj as Required<Args>;
+  return data;
 }

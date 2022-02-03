@@ -13,16 +13,30 @@ export const json = {
   null: /null/,
   number: /-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/,
   text: /[^=\{\}\[\]]+/,
-};
+} as const;
+
+const flags = {
+  help: /^--help|-h$/,
+  version: /^--version|-v$/,
+  form: /^--form|-f$/,
+} as const;
 
 export const args = {
-  flag: /^(\-[a-z]|\--[a-z-]+)$/,
-  method: /GET|POST|PUT|PATCH|DELETE/,
+  commands: {
+    run: /^run$/,
+    upgrade: /^upgrade$/,
+  },
+  flags: {
+    ...flags,
+    noArgs: `${flags.help.source}|${flags.version.source}`,
+    withArgs: flags.form,
+  },
+  method: /^GET|POST|PUT|PATCH|DELETE$/,
   url: new RegExp(
-    `^${protocolOrWWW.source}${validURLChars.source}(\\.|\\:)${validURLChars.source}$`,
+    `^${protocolOrWWW.source}${validURLChars.source}(\\.|\\:)${validURLChars.source}$`
   ),
   body: {
     ...json,
     equal: /=/,
   },
-};
+} as const;

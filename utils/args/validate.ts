@@ -7,7 +7,7 @@ interface Invalid {
   type: string;
 }
 
-export function validateArgs(args: Required<Args>): Invalid | false {
+export function validateArgs(args: Args): Invalid | false {
   const { method, flags, url, command } = args;
 
   const miss = missData(args);
