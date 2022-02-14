@@ -7,6 +7,19 @@
 
 export type Method = "GET" | "POST" | "PUT" | "DELETE" | "PATCH";
 export type Protocol = "HTTP" | "HTTPS";
+interface RunCommand {
+  command: "run";
+  body: string;
+}
+
+export type Command = RunCommand;
+
+export interface Flag {
+  flags: {
+    help?: true;
+    version?: true;
+  };
+}
 
 export interface Output {
   ok: boolean;
@@ -16,11 +29,19 @@ export interface Output {
   body?: Record<string, unknown> | string;
 }
 
-export interface Args {
-  method?: Method;
-  url?: string;
-  flags?: Record<string, true>;
+export interface RequestArgs {
+  method: Method;
+  url: string;
+  flags?: {
+    form: true;
+  };
   body?: string | FormData | Record<string, unknown>;
   headers?: Record<string, string>;
-  command?: string;
 }
+
+export type Args = Flag | Command | RequestArgs;
+
+export type ArgsType =
+  | { data: Flag; type: "flag" }
+  | { data: Command; type: "command" }
+  | { data: RequestArgs; type: "request" };

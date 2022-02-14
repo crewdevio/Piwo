@@ -10,39 +10,30 @@ import versionCommand from "./commands/version.ts";
 import parse from "./utils/args/parser.ts";
 import output from "./utils/output/output.ts";
 import { fetchFromArgs, fetchFromRequestFile } from "./utils/request/fetch.ts";
-import { validateArgs } from "./utils/args/validate.ts";
 import { getRequest } from "./utils/readJson.ts";
 import { runCommandFilePath } from "./info.ts";
 
 const denoArgs = Deno.args;
 const args = parse(denoArgs);
-const unexpect = args && validateArgs(args);
-
-if (unexpect && unexpect.exit) {
-  const { type, msg } = unexpect;
-
-  console.error(`${type}: ${msg}`);
-  Deno.exit();
-}
 
 if (args) {
-  const { flags, command } = args;
+  const { type } = args;
 
-  if (command) {
-    const alias = command.split(" ")[1];
-    const request = await getRequest(alias, runCommandFilePath);
+  if (type === "flag") {
+    const { flags } = args.data;
+    console.log(flags.version ? versionCommand : helpCommand);
+  }
 
-    output(await fetchFromRequestFile(request.url, request));
-  } else if (flags?.help) {
-    console.log(helpCommand);
-  } else if (flags?.version) {
-    console.log(versionCommand);
-  } else {
-    output(await fetchFromArgs(args));
+  if (type === "command") {
+    const { command } = args.data;
+    if (command === "run") {
+      const alias = args.data.body;
+      const request = await getRequest(alias, runCommandFilePath);
+      output(await fetchFromRequestFile(request.url, request));
+    }
+  }
+
+  if (type === "request") {
+    output(await fetchFromArgs(args.data));
   }
 } else console.log(helpCommand);
-
-if (unexpect) {
-  const { type, msg } = unexpect;
-  console.error(`\n${type}: ${msg}`);
-}
