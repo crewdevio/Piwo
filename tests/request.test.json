@@ -7,7 +7,7 @@
     "method": "POST",
     "url": "http://localhost:8080/task/",
     "headers": {
-      "Content-Type": "application/json"
+      "content-type": "application/json"
     },
     "body": {
       "name": "read json file",
@@ -25,7 +25,7 @@
     "method": "POST",
     "url": "http://localhost:8080/",
     "headers": {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "content-type": "application/x-www-form-urlencoded"
     },
     "body": {
       "foo": "bar"
@@ -35,7 +35,7 @@
     "method": "POST",
     "url": "http://localhost:8080/",
     "headers": {
-      "Content-Type": "multipart/form-data"
+      "content-type": "multipart/form-data"
     },
     "body": {
       "foo": "bar"
@@ -45,7 +45,7 @@
     "method": "POST",
     "url": "http://localhost:8080/",
     "headers": {
-      "Content-Type": "text/plain"
+      "content-type": "text/plain"
     },
     "body": "bar"
   },
@@ -53,7 +53,7 @@
     "method": "POST",
     "url": "http://localhost:8080/",
     "headers": {
-      "Content-Type": "text/html"
+      "content-type": "text/html"
     },
     "body": "bar"
   }

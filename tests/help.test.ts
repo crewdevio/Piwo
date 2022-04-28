@@ -1,6 +1,6 @@
+import type { ArgsType } from "../types.ts";
 import { Merlin } from "merlin";
 import parse from "../utils/args/parser.ts";
-import type { ArgResult, FlagResult } from "./types.ts";
 
 const test = new Merlin();
 
@@ -10,8 +10,16 @@ test.assertEqual("help flag", {
     const complete = parse(["--help"]);
     return { short, complete };
   },
-  toBe(): FlagResult {
-    const result: ArgResult = { flags: { help: true } };
+  toBe() {
+    const result: ArgsType = {
+      data: {
+        flags: {
+          help: true,
+        },
+      },
+      type: "flag",
+    };
+
     return {
       short: result,
       complete: result,

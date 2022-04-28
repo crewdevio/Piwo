@@ -1,6 +1,6 @@
+import type { ArgsType } from "../types.ts";
 import { Merlin } from "merlin";
 import parse from "../utils/args/parser.ts";
-import type { ArgResult, FlagResult } from "./types.ts";
 
 const test = new Merlin();
 
@@ -21,7 +21,7 @@ test.assertEqual("POST a formData with -f flag", {
 
     return { short, complete };
   },
-  toBe(): FlagResult {
+  toBe() {
     const formData = new FormData();
     formData.append(
       "person",
@@ -29,15 +29,18 @@ test.assertEqual("POST a formData with -f flag", {
         "name": "Deno Merlin",
         "age": 24,
         "hobbies": ["test", "movies"]
-      }`),
+      }`)
     );
 
-    const result: ArgResult = {
-      method: "POST",
-      url: "localhost:8080",
-      flags: { form: true },
-      headers: undefined,
-      body: formData,
+    const result: ArgsType = {
+      data: {
+        method: "POST",
+        url: "localhost:8080",
+        flags: { form: true },
+        headers: undefined,
+        body: formData,
+      },
+      type: "request",
     };
 
     return {
