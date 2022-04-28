@@ -29,7 +29,7 @@ test.assertEqual("POST a formData with -f flag", {
         "name": "Deno Merlin",
         "age": 24,
         "hobbies": ["test", "movies"]
-      }`)
+      }`),
     );
 
     const result: ArgsType = {

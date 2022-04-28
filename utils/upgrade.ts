@@ -5,16 +5,18 @@ const lowerCaseName = name.toLowerCase();
 
 export function offLine() {
   throw new Error(
-    `${red(
-      "error"
-    )} something went wrong, maybe you're offline, check your connection.`
+    `${
+      red(
+        "error",
+      )
+    } something went wrong, maybe you're offline, check your connection.`,
   ).message;
 }
 
 export async function update(): Promise<void> {
   // * get the version of the repo in github
   const response = (await fetch(
-    `https://api.github.com/repos/crewdevio/${name}/releases/latest`
+    `https://api.github.com/repos/crewdevio/${name}/releases/latest`,
   ).catch(() => offLine())) as Response;
 
   // * get the latest release
@@ -25,16 +27,16 @@ export async function update(): Promise<void> {
   if (repoVersion.tag_name !== version || isCanary) {
     setTimeout(async () => {
       await exec(
-        `deno install -f -r -A --import-map=https://deno.land/x/${lowerCaseName}/import_map.json -n ${lowerCaseName} --no-check https://deno.land/x/${lowerCaseName}/cli.ts`
+        `deno install -f -r -A --import-map=https://deno.land/x/${lowerCaseName}/import_map.json -n ${lowerCaseName} --no-check https://deno.land/x/${lowerCaseName}/cli.ts`,
       );
 
       console.log(
-        red(`${name} ${red(repoVersion.tag_name)} is now installed.`)
+        red(`${name} ${red(repoVersion.tag_name)} is now installed.`),
       );
     }, 1000);
   } else {
     console.log(
-      red(`you have the last version ${name} ${repoVersion.tag_name}`)
+      red(`you have the last version ${name} ${repoVersion.tag_name}`),
     );
   }
 }

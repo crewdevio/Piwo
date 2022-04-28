@@ -12,7 +12,7 @@ test.assertEqual("run GET: api.github.com", {
     const data = { method: "GET", url: "https://api.github.com/" };
     return new Request(data.url, data);
   },
-  ignore: true
+  ignore: true,
 });
 
 test.assertEqual("run POST: json body to localhost", {
@@ -33,7 +33,7 @@ test.assertEqual("run POST: json body to localhost", {
 
     return new Request(data.url, data);
   },
-  ignore: true
+  ignore: true,
 });
 
 test.assertEqual("run POST: send form", {
@@ -58,14 +58,14 @@ test.assertEqual("run POST: send form", {
       {
         headers: { "content-type": "application/x-www-form-urlencoded" },
       },
-      noHeaders
+      noHeaders,
     );
 
     const multipartForm = Object.assign(
       {
         headers: { "content-type": "multipart/form-data" },
       },
-      noHeaders
+      noHeaders,
     );
 
     return {
@@ -74,7 +74,7 @@ test.assertEqual("run POST: send form", {
       multipartForm: new Request(multipartForm.url, multipartForm),
     };
   },
-  ignore: true
+  ignore: true,
 });
 
 test.assertEqual("run POST: send text", {
@@ -91,7 +91,7 @@ test.assertEqual("run POST: send text", {
 
     return new Request(data.url, data);
   },
-  ignore: true
+  ignore: true,
 });
 
 test.assertEqual("run POST: send html", {
@@ -108,5 +108,5 @@ test.assertEqual("run POST: send html", {
 
     return new Request(data.url, data);
   },
-  ignore: true
+  ignore: true,
 });

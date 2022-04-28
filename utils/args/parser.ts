@@ -7,10 +7,10 @@
 
 import type {
   ArgsType,
-  RequestArgs,
   Command,
   Flag,
   Method,
+  RequestArgs,
 } from "../../types.ts";
 import { args } from "../../regex.ts";
 import { purple, yellow } from "../color/colors.ts";
@@ -63,9 +63,11 @@ function parseToCommand(args: string[]): Command | void {
 
     if (args.length < 2) {
       const error = Output.error(
-        `command ${purple("run")} expect a alias from ${yellow(
-          "request.json"
-        )} file as argument`
+        `command ${purple("run")} expect a alias from ${
+          yellow(
+            "request.json",
+          )
+        } file as argument`,
       );
       console.log(error + "\n");
       console.log(suggest);

@@ -33,7 +33,7 @@ export const args = {
   },
   method: /^GET|POST|PUT|PATCH|DELETE$/,
   url: new RegExp(
-    `^${protocolOrWWW.source}${validURLChars.source}(\\.|\\:)${validURLChars.source}$`
+    `^${protocolOrWWW.source}${validURLChars.source}(\\.|\\:)${validURLChars.source}$`,
   ),
   body: {
     ...json,
