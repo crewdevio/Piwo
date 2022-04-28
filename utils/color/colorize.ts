@@ -5,7 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { Output } from "../../types.ts";
+import type { OutputResponse } from "../../types.ts";
 import { bold } from "fmt/colors.ts";
 import { isJson } from "../validate.ts";
 import regex from "./regex.ts";
@@ -20,7 +20,7 @@ import {
   yellow,
 } from "./colors.ts";
 
-function colorizeData({ protocol, status, ok, headers, body }: Output) {
+function colorizeData({ protocol, status, ok, headers, body }: OutputResponse) {
   return {
     protocol: purple(protocol),
     status: colorizeStatus(status),

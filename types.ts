@@ -21,7 +21,7 @@ export interface Flag {
   };
 }
 
-export interface Output {
+export interface OutputResponse {
   ok: boolean;
   protocol: Protocol;
   status: number;
