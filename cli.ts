@@ -8,7 +8,7 @@
 import helpCommand from "./commands/help.ts";
 import versionCommand from "./commands/version.ts";
 import parse from "./utils/args/parser.ts";
-import output from "./utils/output/output.ts";
+import Output from "./utils/output/output.ts";
 import { fetchFromArgs, fetchFromRequestFile } from "./utils/request/fetch.ts";
 import { getRequest } from "./utils/readJson.ts";
 import { runCommandFilePath } from "./info.ts";
@@ -29,11 +29,11 @@ if (args) {
     if (command === "run") {
       const alias = args.data.body;
       const request = await getRequest(alias, runCommandFilePath);
-      output(await fetchFromRequestFile(request.url, request));
+      Output.response(await fetchFromRequestFile(request.url, request));
     }
   }
 
   if (type === "request") {
-    output(await fetchFromArgs(args.data));
+    Output.response(await fetchFromArgs(args.data));
   }
 } else console.log(helpCommand);

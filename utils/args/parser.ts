@@ -5,10 +5,18 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ArgsType, RequestArgs, Command, Flag, Method } from "../../types.ts";
+import type {
+  ArgsType,
+  RequestArgs,
+  Command,
+  Flag,
+  Method,
+} from "../../types.ts";
 import { args } from "../../regex.ts";
+import { purple, yellow } from "../color/colors.ts";
 import Flags from "./flags.ts";
 import Body from "./body.ts";
+import Output from "../output/output.ts";
 
 const { flags, method, url } = args;
 
@@ -45,12 +53,28 @@ export default function parse(args: string[]): ArgsType | void {
 
 function parseToCommand(args: string[]): Command | void {
   if (args.at(0) === "run") {
+    const suggest = Output.example(`run ${yellow("[ALIAS]")}`);
     if (args.length === 2) {
       return {
         command: "run",
         body: args.at(1) as string,
       };
     }
+
+    if (args.length < 2) {
+      const error = Output.error(
+        `command ${purple("run")} expect a alias from ${yellow(
+          "request.json"
+        )} file as argument`
+      );
+      console.log(error + "\n");
+      console.log(suggest);
+      Deno.exit();
+    }
+    const error = Output.error("to many arguments");
+    console.log(error + "\n");
+    console.log(suggest);
+    Deno.exit();
   }
 }
 
