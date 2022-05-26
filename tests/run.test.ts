@@ -12,7 +12,6 @@ test.assertEqual("run GET: api.github.com", {
     const data = { method: "GET", url: "https://api.github.com/" };
     return new Request(data.url, data);
   },
-  ignore: true,
 });
 
 test.assertEqual("run POST: json body to localhost", {
@@ -33,7 +32,6 @@ test.assertEqual("run POST: json body to localhost", {
 
     return new Request(data.url, data);
   },
-  ignore: true,
 });
 
 test.assertEqual("run POST: send form", {
@@ -74,7 +72,6 @@ test.assertEqual("run POST: send form", {
       multipartForm: new Request(multipartForm.url, multipartForm),
     };
   },
-  ignore: true,
 });
 
 test.assertEqual("run POST: send text", {
@@ -91,7 +88,6 @@ test.assertEqual("run POST: send text", {
 
     return new Request(data.url, data);
   },
-  ignore: true,
 });
 
 test.assertEqual("run POST: send html", {
@@ -108,5 +104,4 @@ test.assertEqual("run POST: send html", {
 
     return new Request(data.url, data);
   },
-  ignore: true,
 });
