@@ -2,6 +2,7 @@
   "imports": {
     "fmt/": "https://deno.land/std@0.140.0/fmt/",
     "fs/": "https://deno.land/std@0.140.0/fs/",
-    "merlin": "https://deno.land/x/merlin@v1.0.7/mod.ts"
+    "merlin": "https://deno.land/x/merlin@v1.0.7/mod.ts",
+    "tools-fs": "https://denopkg.com/crewdevio/tools@main/fs/mod.ts"
   }
 }
