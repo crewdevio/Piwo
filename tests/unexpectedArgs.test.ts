@@ -36,3 +36,22 @@
 //   },
 //   ignore: true
 // });
+
+// test.assertEqual("version unexpected args", {
+//   expect() {
+//     const obj: Args = {
+//       flags: { version: true },
+//       url: "ajio.com",
+//       method: "GET",
+//     };
+//     return validateArgs(obj as Required<Args>);
+//   },
+//   toBe() {
+//     return {
+//       msg: `the flag ${purple("version")} doesn't need arguments`,
+//       exit: false,
+//       type: `${yellow("warn")}`,
+//     };
+//   },
+//   ignore: true
+// });
