@@ -1,11 +1,11 @@
-import { red, yellow } from "./color/colors.ts";
 import { formData } from "./formData.ts";
 import { exists } from "fs/mod.ts";
+import { errors } from "./output/errors.ts";
+import Output from "./output/output.ts";
 
 async function readJsonFile(filePath: string) {
-  if (!await exists(filePath)) {
-    console.error(`${red("error")}: ${yellow(filePath)} not found`);
-    Deno.exit();
+  if (!(await exists(filePath))) {
+    Output.error(errors.fileNotFound(filePath));
   }
 
   try {
@@ -22,14 +22,7 @@ async function readJsonFile(filePath: string) {
 export async function getRequest(alias: string, filePath: string) {
   const json = await readJsonFile(filePath);
   const data = json[alias];
-  if (!data) {
-    console.error(
-      `${red("error")}: ${yellow(alias)} alias not found in ${
-        yellow("request.json")
-      }`,
-    );
-    Deno.exit();
-  }
+  if (!data) Output.error(errors.command.run.notFound(alias));
 
   if (data.body) {
     const { headers, body } = data;

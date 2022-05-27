@@ -39,8 +39,6 @@ export interface RequestArgs {
   headers?: Record<string, string>;
 }
 
-export type Args = Flag | Command | RequestArgs;
-
 export type ArgsType =
   | { data: Flag; type: "flag" }
   | { data: Command; type: "command" }

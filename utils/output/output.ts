@@ -18,12 +18,16 @@ class Output {
     console.log(`${protocol} ${status}/${ok}\n${headers + outputBody}`);
   }
 
-  static error(msg: string) {
-    return `${red("error")}: ${msg}`;
+  static error(msg: string, suggestion?: string) {
+    msg = `${red("error")}: ${msg}`;
+    msg = suggestion ? `${msg}\n\n${suggestion}` : msg;
+
+    console.error(msg);
+    Deno.exit();
   }
 
   static warn(msg: string) {
-    return `${yellow("warning")}: ${msg}`;
+    console.warn(`${yellow("warning")}: ${msg}`);
   }
 
   static example(args: string) {

@@ -6,8 +6,9 @@
  */
 
 import { dontNeedToBeMutated, equal, readBody } from "./regex.ts";
-import { red } from "../color/colors.ts";
 import { formData } from "../formData.ts";
+import { errors } from "../output/errors.ts";
+import Output from "../output/output.ts";
 
 export default class Body {
   static parseToJSON(body: string[]) {
@@ -16,8 +17,7 @@ export default class Body {
     try {
       return JSON.parse(stringified);
     } catch {
-      console.error(`${red("error")}: invalid body or input`);
-      Deno.exit();
+      Output.error(errors.invalid);
     }
   }
 
