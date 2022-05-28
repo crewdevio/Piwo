@@ -1,5 +1,5 @@
 import { Merlin } from "merlin";
-import { getRequest } from "../utils/readJson.ts";
+import { getRequest } from "../utils/request/getRequest.ts";
 
 const test = new Merlin();
 const filePath = "./tests/request.test.json";

@@ -7,7 +7,7 @@
 
 import { fetchFromArgs, fetchFromRequestFile } from "./utils/request/fetch.ts";
 import { runCommandFilePath } from "./info.ts";
-import { getRequest } from "./utils/readJson.ts";
+import { getRequest } from "./utils/request/getRequest.ts";
 import versionCommand from "./commands/version.ts";
 import helpCommand from "./commands/help.ts";
 import Output from "./utils/output/output.ts";

@@ -14,10 +14,18 @@ export const errors = {
         )} file`;
       },
       toManyAliases: `To many aliases. The command run expect only one alias`,
+      noHeaders(alias: string) {
+        return `${yellow(alias)} alias has no headers but is trying to send a body`;
+      }
     },
   },
   request: {
     missUrl: `Missing URL`,
+    body: {
+      json: {
+        invalid: `Body is not a valid JSON for JSON or Form type request`,
+      }
+    }
   },
   flag: {
     toManyArgs(flag: string) {
