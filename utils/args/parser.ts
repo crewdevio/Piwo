@@ -67,8 +67,9 @@ function parseToCommand(args: string[]): Command | void {
 
 function parseToFlag(args: string[]): Flag | void {
   if (args.at(0)?.match(flags.noArgs)) {
-    if (args.length > 1)
+    if (args.length > 1) {
       Output.error(errors.flag.toManyArgs(args.at(0) as string));
+    }
 
     return {
       flags: {
@@ -104,8 +105,9 @@ function parseToRequestArgs(args: string[]): RequestArgs | void {
     data.headers = !form ? { "content-type": "application/json" } : undefined;
   }
 
-  if (!data.url)
+  if (!data.url) {
     Output.error(errors.request.missUrl, suggestions.request.usage);
+  }
 
   return data;
 }

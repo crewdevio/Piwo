@@ -18,8 +18,9 @@ const args = parse(Deno.args);
 if (args) {
   const { type, data } = args;
 
-  if (type === "flag")
+  if (type === "flag") {
     console.log(data.flags.version ? versionCommand : helpCommand);
+  }
 
   if (type === "command" && data.command === "run") {
     const alias = data.body;
