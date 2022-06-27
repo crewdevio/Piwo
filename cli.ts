@@ -5,35 +5,28 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import helpCommand from "./commands/help.ts";
-import versionCommand from "./commands/version.ts";
-import parse from "./utils/args/parser.ts";
-import output from "./utils/output/output.ts";
 import { fetchFromArgs, fetchFromRequestFile } from "./utils/request/fetch.ts";
-import { getRequest } from "./utils/readJson.ts";
 import { runCommandFilePath } from "./info.ts";
+import { getRequest } from "./utils/request/getRequest.ts";
+import versionCommand from "./commands/version.ts";
+import helpCommand from "./commands/help.ts";
+import Output from "./utils/output/output.ts";
+import parse from "./utils/args/parser.ts";
 
-const denoArgs = Deno.args;
-const args = parse(denoArgs);
+const args = parse(Deno.args);
 
 if (args) {
-  const { type } = args;
+  const { type, data } = args;
 
   if (type === "flag") {
-    const { flags } = args.data;
-    console.log(flags.version ? versionCommand : helpCommand);
+    console.log(data.flags.version ? versionCommand : helpCommand);
   }
 
-  if (type === "command") {
-    const { command } = args.data;
-    if (command === "run") {
-      const alias = args.data.body;
-      const request = await getRequest(alias, runCommandFilePath);
-      output(await fetchFromRequestFile(request.url, request));
-    }
+  if (type === "command" && data.command === "run") {
+    const alias = data.body;
+    const request = await getRequest(alias, runCommandFilePath);
+    Output.response(await fetchFromRequestFile(request.url, request));
   }
 
-  if (type === "request") {
-    output(await fetchFromArgs(args.data));
-  }
+  if (type === "request") Output.response(await fetchFromArgs(data));
 } else console.log(helpCommand);

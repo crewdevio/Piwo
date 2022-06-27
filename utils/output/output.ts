@@ -5,15 +5,34 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { Output } from "../../types.ts";
+import type { OutputResponse } from "../../types.ts";
+import { red, yellow } from "../color/colors.ts";
 import colorizeData from "../color/colorize.ts";
 
-function output(data: Output) {
-  const { protocol, status, ok, headers, body } = colorizeData(data);
+class Output {
+  static response(data: OutputResponse) {
+    const { protocol, status, ok, headers, body } = colorizeData(data);
 
-  const outputBody = body ? `\n${body}` : "";
+    const outputBody = body ? `\n${body}` : "";
 
-  console.log(`${protocol} ${status}/${ok}\n${headers + outputBody}`);
+    console.log(`${protocol} ${status}/${ok}\n${headers + outputBody}`);
+  }
+
+  static error(msg: string, suggestion?: string) {
+    msg = `${red("error")}: ${msg}`;
+    msg = suggestion ? `${msg}\n\n${suggestion}` : msg;
+
+    console.error(msg);
+    Deno.exit();
+  }
+
+  static warn(msg: string) {
+    console.warn(`${yellow("warning")}: ${msg}`);
+  }
+
+  static example(args: string) {
+    return `piwo ${args}`;
+  }
 }
 
-export default output;
+export default Output;

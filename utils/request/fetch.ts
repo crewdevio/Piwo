@@ -5,13 +5,15 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { RequestArgs, Output } from "../../types.ts";
+import type { OutputResponse, RequestArgs } from "../../types.ts";
 import { HandleResponseData } from "../validate.ts";
 import { parseHeaders } from "./headers.ts";
 import { getProtocol } from "./protocol.ts";
 import { getCookie, saveCookie } from "./cookies.ts";
 
-export async function fetchFromArgs(config: RequestArgs): Promise<Output> {
+export async function fetchFromArgs(
+  config: RequestArgs,
+): Promise<OutputResponse> {
   const { method, body, flags, headers, url: URL } = config;
   const form = flags?.form;
   const hasProtocol = URL.includes("http");
@@ -90,7 +92,7 @@ export async function fetchFromArgs(config: RequestArgs): Promise<Output> {
 export async function fetchFromRequestFile(
   url: string,
   init: Request,
-): Promise<Output> {
+): Promise<OutputResponse> {
   const cookie = await getCookie(url);
   if (cookie) {
     init.headers.set("cookie", cookie);

@@ -5,8 +5,16 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import type { ArgsType, RequestArgs, Command, Flag, Method } from "../../types.ts";
+import type {
+  ArgsType,
+  Command,
+  Flag,
+  Method,
+  RequestArgs,
+} from "../../types.ts";
+import { errors, suggestions } from "../output/errors.ts";
 import { args } from "../../regex.ts";
+import Output from "../output/output.ts";
 import Flags from "./flags.ts";
 import Body from "./body.ts";
 
@@ -45,17 +53,24 @@ export default function parse(args: string[]): ArgsType | void {
 
 function parseToCommand(args: string[]): Command | void {
   if (args.at(0) === "run") {
-    if (args.length === 2) {
-      return {
-        command: "run",
-        body: args.at(1) as string,
-      };
-    }
+    const { missing, toManyAliases } = errors.command.run;
+
+    if (args.length < 2) Output.error(missing, suggestions.command.run.usage);
+    if (args.length > 2) Output.error(toManyAliases);
+
+    return {
+      command: "run",
+      body: args.at(1) as string,
+    };
   }
 }
 
 function parseToFlag(args: string[]): Flag | void {
   if (args.at(0)?.match(flags.noArgs)) {
+    if (args.length > 1) {
+      Output.error(errors.flag.toManyArgs(args.at(0) as string));
+    }
+
     return {
       flags: {
         [Flags.parse(args.at(0) as string)]: true,
@@ -88,6 +103,10 @@ function parseToRequestArgs(args: string[]): RequestArgs | void {
     const form = data.flags?.form;
     data.body = form ? Body.parseToFormData(body) : Body.parseToJSON(body);
     data.headers = !form ? { "content-type": "application/json" } : undefined;
+  }
+
+  if (!data.url) {
+    Output.error(errors.request.missUrl, suggestions.request.usage);
   }
 
   return data;

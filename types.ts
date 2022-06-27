@@ -21,7 +21,7 @@ export interface Flag {
   };
 }
 
-export interface Output {
+export interface OutputResponse {
   ok: boolean;
   protocol: Protocol;
   status: number;
@@ -38,8 +38,6 @@ export interface RequestArgs {
   body?: string | FormData | Record<string, unknown>;
   headers?: Record<string, string>;
 }
-
-export type Args = Flag | Command | RequestArgs;
 
 export type ArgsType =
   | { data: Flag; type: "flag" }

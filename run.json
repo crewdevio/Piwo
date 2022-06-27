@@ -3,7 +3,7 @@
     "dev": "deno run -A --unstable --import-map=./import_map.json ./cli.ts",
     "piwo": "deno run --allow-env --allow-net --allow-read --allow-write --no-check --import-map=./import_map.json ./cli.ts",
     "test": "deno test -A --unstable --import-map=./import_map.json",
-    "log": "ghlog crewdevio/piwo",
+    "log": "trex exec ghlog crewdevio/piwo",
     "preinstall": "cp -a .githooks/. .git/hooks/"
   }
 }
